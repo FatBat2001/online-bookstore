@@ -1,0 +1,17 @@
+.product-list{
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.product-list .product-card{
+    width: 20%;
+    margin: 10px;
+}
+
+
+
+
+

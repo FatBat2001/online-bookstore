@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./styles/App.css";
+import Footer from "./shared/Footer";
+import Header from "./shared/Header";
+import { Outlet } from "react-router-dom";
 function App() {
+  // using outlet helps reusing some 
+  // components, By only passing new Components 
+  // inside the <Outlet /> from nesting childs in 
+  // router file 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Outlet />
+      <Footer />
     </div>
   );
 }

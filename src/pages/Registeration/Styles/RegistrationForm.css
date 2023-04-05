@@ -1,0 +1,36 @@
+.RegistrationForm{
+  
+  display: grid;
+  place-items: center;
+  margin: 25px 0px;
+}
+.RegistrationForm label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .RegistrationForm input {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .RegistrationForm button {
+    background-color: brown;
+    color: #fff;
+    width: 100px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    
+  }
+  
+  .RegistrationForm button:hover {
+    opacity: 80%;
+  }
+  

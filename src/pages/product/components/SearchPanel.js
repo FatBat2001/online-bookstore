@@ -1,21 +1,35 @@
-import '../styles/SearchPanel.css';
-import { useState } from 'react';
+import "../styles/SearchPanel.css";
+import { useState } from "react";
 export const SearchPanel = () => {
-    const [bookTitle, setBookTitle] = useState("");
-    const [author, setAuthor] = useState("");
-    
-    return (
-    <div class="search-box">
-        <form>
+  const [bookTitle, setBookTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const handleSubmit = (Even) => {
 
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author" placeholder="Enter author name"/>
-        <label for="book-title">Book Title</label>
-        <input type="text" id="book-title" name="author" placeholder="Enter book title"/>
+    Even.preventDefault();
+    console.log(`Book Title: ${bookTitle}, Author: ${author}`);
+
+  }  
+  return (
+    <div className="search-box">
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="author">Author</label>
+        <input
+          type="text"
+          id="author"
+          name="author"
+          placeholder="Enter author name"
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+        <label htmlFor="book-title">Book Title</label>
+        <input
+          type="text"
+          id="book-title"
+          name="author"
+          placeholder="Enter book title"
+          onChange={(e) => setBookTitle(e.target.value)}
+        />
         <button type="submit">Search</button>
-        </form>
+      </form>
     </div>
-    );
-}
-
-
+  );
+};

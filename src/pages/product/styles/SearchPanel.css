@@ -7,6 +7,12 @@
     border-radius: 5px;
     height: 33px;
 }
+
+.search-box button:hover{
+    border-color: aqua;
+    border: 1px solid aqua;
+}
+
 .search-box input {
     display: block;
     width: 80%;
@@ -19,5 +25,6 @@
     font-size: 20px;
     font-weight: bold;
 } 
+
 
 

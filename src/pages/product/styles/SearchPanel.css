@@ -1,0 +1,22 @@
+.search-box button{
+    margin-top: 10px;
+    background-color: white;
+    width: 80%;
+    color: brown;
+    border: 1px solid brown;
+    border-radius: 5px;
+    height: 33px;
+}
+.search-box input {
+    width: 80%;
+    border: 1px solid brown;
+    border-radius: 5px;
+    padding: 5px;
+} 
+.search-box  label{
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+} 
+
+

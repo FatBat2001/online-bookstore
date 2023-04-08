@@ -1,6 +1,6 @@
-import { Data } from "../../core/data/books";
-import ProductCard from "./components/ProductCard";
-import './styles/ProductList.css';
+import { Data } from "../../../core/data/books";
+import ProductCard from "./ProductCard";
+import '../styles/ProductList.css';
 
 // data is shared by one way binding method 
 // data is only transefered from parent to child 

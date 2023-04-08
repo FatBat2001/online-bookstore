@@ -1,13 +1,13 @@
 import {createBrowserRouter} from "react-router-dom";
 
-import ProductList from "./pages/product/ProductList";
 import { About } from "./pages/about/About";
 import {Contact} from "./pages/contact/Contact";
 import App from "./App";
 import { NotFound } from "./shared/NotFound";
-import { ProductInfo } from "./pages/product/ProductInfo";
+import { ProductInfo } from "./pages/product/components/ProductInfo";
 import LoginForm from "./pages/Login/LoginForm";
 import RegistrationForm from "./pages/Registeration/Components/RegistrationForm";
+import Home from "./pages/product/Home";
 export const router = createBrowserRouter([
     {
 
@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
       children:[
         {
           path: "/",
-          element: <ProductList/>
+          element: <Home />
         },
         {
           path: "about",

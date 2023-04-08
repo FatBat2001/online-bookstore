@@ -7,7 +7,6 @@ const Home = () =>  {
         <div className="container">
             <div className="nav-panel"> 
                 <SearchPanel />
-                
             </div>
             <ProductList className ="content"/>
         </div>

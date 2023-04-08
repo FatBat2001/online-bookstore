@@ -8,6 +8,7 @@
     height: 33px;
 }
 .search-box input {
+    display: block;
     width: 80%;
     border: 1px solid brown;
     border-radius: 5px;

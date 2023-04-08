@@ -1,30 +1,31 @@
-.search-box button{
-    margin-top: 10px;
-    background-color: white;
-    width: 80%;
-    color: brown;
-    border: 1px solid brown;
-    border-radius: 5px;
-    height: 33px;
+.search-box button {
+  margin-top: 10px;
+  background-color: white;
+  width: 80%;
+  color: brown;
+  border: 1px solid brown;
+  border-radius: 5px;
+  height: 33px;
+}
+.search-box h2 {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 
-.search-box button:hover{
-    border-color: aqua;
-    border: 1px solid aqua;
+.search-box button:hover {
+  border-color: aqua;
+  border: 1px solid aqua;
 }
 
 .search-box input {
-    display: block;
-    width: 80%;
-    border: 1px solid brown;
-    border-radius: 5px;
-    padding: 5px;
-} 
-.search-box  label{
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
-} 
-
-
-
+  display: block;
+  width: 80%;
+  border: 1px solid brown;
+  border-radius: 5px;
+  padding: 5px;
+}
+.search-box label {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}

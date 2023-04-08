@@ -12,6 +12,7 @@ export const SearchPanel = () => {
   return (
     <div className="search-box">
       <form onSubmit={handleSubmit}>
+        <h2>Search Panel</h2>
         <label htmlFor="author">Author</label>
         <input
           type="text"

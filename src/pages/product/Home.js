@@ -1,6 +1,7 @@
 import ProductList from "./components/ProductList";
 import { SearchPanel } from "./components/SearchPanel";
 import './styles/Home.css';
+// import { useState } from "react";
 const Home = () =>  {
     return (
         <div className="container">

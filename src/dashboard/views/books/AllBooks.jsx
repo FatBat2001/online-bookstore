@@ -59,7 +59,7 @@ const AllBooks = () => {
     ];
 
     const handleDelete = (params) => {
-        setData(data.filter((item) => item.id !== params.id))
+        setData(currdata.filter((item) => item.id !== params.id))
     };
 
     const updateBook = (param) => {

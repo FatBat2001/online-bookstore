@@ -13,6 +13,12 @@ import AddBook from "./dashboard/views/books/AddBook";
 import UpdateBook, { UpdateBookLoader } from "./dashboard/views/books/UpdateBook";
 import Dashboard from "./dashboard/Dashboard";
 import Books from "./dashboard/views/books/Books";
+import BorrowRequests from "./dashboard/views/books/BorrowRequests";
+import BorrowHistory from "./dashboard/views/books/BorrowHistory";
+import Borrows from "./dashboard/views/books/Borrows";
+import Accounts from "./dashboard/views/books/Accounts";
+import AccountRequests from "./dashboard/views/books/AccountRequests";
+import AccountHistory from "./dashboard/views/books/AccountHistory";
 
 
 
@@ -65,6 +71,34 @@ export const router = createBrowserRouter([
           },
         ]
       },
+      {
+        path: "borrowReq",
+        element: <Borrows />,
+        children: [
+          {
+            index: true,
+            element: <BorrowRequests />,
+          },
+          {
+            path: "history",
+            element: <BorrowHistory />,
+          }
+        ]
+      },
+      {
+        path: "accountReq",
+        element: <Accounts />,
+        children: [
+          {
+            index: true,
+            element: <AccountRequests />,
+          },
+          {
+            path: "history",
+            element: <AccountHistory />,
+          }
+        ]
+      }
     ]
   },
   {

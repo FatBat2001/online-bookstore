@@ -1,5 +1,3 @@
-
-
 export const data = [
     {
         id: 1,
@@ -8,7 +6,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Drama',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Mohammed',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Accepted',
+        userStatus: 'Approved',
     },
     {
         id: 2,
@@ -17,7 +20,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Ali',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Accepted',
+        userStatus: 'Disapproved',
     },
     {
         id: 3,
@@ -26,7 +34,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Lora',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Accepted',
+        userStatus: 'Approved',
     },
     {
         id: 4,
@@ -35,7 +48,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Ahmed',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Accepted',
+        userStatus: 'Approved',
     },
     {
         id: 5,
@@ -44,7 +62,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Nadia',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Rejected',
+        userStatus: 'Disapproved',
     },
     {
         id: 6,
@@ -53,7 +76,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Layla',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Rejected',
+        userStatus: 'Disapproved',
     },
     {
         id: 7,
@@ -62,7 +90,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Joseph',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Rejected',
+        userStatus: 'Pending',
     },
     {
         id: 8,
@@ -71,7 +104,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Sara',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
     {
         id: 9,
@@ -80,7 +118,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Lola',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
     {
         id: 10,
@@ -89,7 +132,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Essam',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
     {
         id: 11,
@@ -98,7 +146,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Badr',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
     {
         id: 12,
@@ -107,7 +160,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Khaled',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     }, {
         id: 13,
         photo: '/the-lord-of-the-rings-book-cover.jpg',
@@ -115,7 +173,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Sora',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
     {
         id: 14,
@@ -124,7 +187,12 @@ export const data = [
         author: 'abraham lincolin',
         category: 'Action',
         rackNumber: '23',
-        ISBN: '452-143-5687'
+        ISBN: '452-143-5687',
+        userName: 'Barak',
+        userEmail: 'Something@gmail.com',
+        userPhoneNum: '123 456 7890',
+        borrowStatus: 'Pending',
+        userStatus: 'Pending',
     },
 ];
 

@@ -13,12 +13,12 @@ import AddBook from "./dashboard/views/books/AddBook";
 import UpdateBook, { UpdateBookLoader } from "./dashboard/views/books/UpdateBook";
 import Dashboard from "./dashboard/Dashboard";
 import Books from "./dashboard/views/books/Books";
-import BorrowRequests from "./dashboard/views/books/BorrowRequests";
-import BorrowHistory from "./dashboard/views/books/BorrowHistory";
-import Borrows from "./dashboard/views/books/Borrows";
-import Accounts from "./dashboard/views/books/Accounts";
-import AccountRequests from "./dashboard/views/books/AccountRequests";
-import AccountHistory from "./dashboard/views/books/AccountHistory";
+import BorrowRequests from "./dashboard/views/borrowRequests/BorrowRequests";
+import BorrowHistory from "./dashboard/views/borrowRequests/BorrowHistory";
+import Borrows from "./dashboard/views/borrowRequests/Borrows";
+import Accounts from "./dashboard/views/usersRequests/Accounts";
+import AccountRequests from "./dashboard/views/usersRequests/AccountRequests";
+import AccountHistory from "./dashboard/views/usersRequests/AccountHistory";
 
 
 

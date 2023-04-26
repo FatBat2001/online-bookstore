@@ -180,6 +180,7 @@ router.post("/borrow-request/:id", async (req, res) => {
             userid: req.body.userid,
             bookid: req.params.id,
             status: "pending",
+            ret_date: req.body.date,
         }
         //INSERT REQUEST DATA TO "requested_book"
         const user = await query("insert into requested_book set ?", [
@@ -239,10 +240,24 @@ try {
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //history
 router.get("/history/:id",async(req,res)=>{
-
-});
-
-
+  try {
+      const query = util.promisify(conn.query).bind(conn);
+      const book = await query("select * from requested_book where userid = ?",[req.params.id]);
+      if (!book[0]) {
+        res.status(400).json({
+          errors: [
+            {
+              msg: "no history found",
+            },
+          ],
+        });
+      } else {
+        res.status(200).json(book);
+      }
+    } catch (err) {
+      res.status(500).json({ err: err });
+    }
+  });
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //delete book
 router.delete("/delete-book", async (req, res) => {

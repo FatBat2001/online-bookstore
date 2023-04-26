@@ -193,7 +193,57 @@ router.post("/borrow-request/:id", async (req, res) => {
       }
 })
 
+//manage borrowed reqs
+router.put("/manage-reqs/:id/:status",
+async(req,res)=>{
+    try {
+        const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
+        //status -> 1 accept // 0 -> reject
+        let appliedstatus = "";
+        if(req.params.status == "1"){
+            appliedstatus = "accepted";
+        }
+        else{
+            appliedstatus = "rejected";
+        }
+        await query("update requested_book set status = ?  where id = ?",[appliedstatus,req.params.id]);
+        res.status(200).json("updated");
+    } catch (err) {
+        res.status(500).json({ err: err });
+      }
+});
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//borrowed books
+router.get("/show-borrowed",async(req,res)=>{
+try {
+    const query = util.promisify(conn.query).bind(conn);
+    const book = await query("select * from requested_book");
+    if (!book[0]) {
+      res.status(400).json({
+        errors: [
+          {
+            msg: "no books found",
+          },
+        ],
+      });
+    } else {
+      res.status(200).json(book);
+    }
+  } catch (err) {
+    res.status(500).json({ err: err });
+  }
+});
 
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//history
+router.get("/history/:id",async(req,res)=>{
+
+});
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------
 //delete book
 router.delete("/delete-book", async (req, res) => {
   res.status(200).json("successfully deleted");

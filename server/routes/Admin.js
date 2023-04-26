@@ -169,12 +169,30 @@ router.post("/accept-user/:id/:status", async (req, res) => {
 });
 
 //add user (approve / reject)
-//borrow request (approve reject)
 
-//create book
-router.post("/create-book", async (req, res) => {
-  res.status(200).json("successfully created");
-});
+
+//borrow request (approve reject)
+router.post("/borrow-request/:id", async (req, res) => {
+    try {
+        const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
+        //REQUEST DATA
+        const requestData = {
+            userid: req.body.userid,
+            bookid: req.params.id,
+            status: "pending",
+        }
+        //INSERT REQUEST DATA TO "requested_book"
+        const user = await query("insert into requested_book set ?", [
+          requestData
+        ]);
+    
+        
+        res.status(200).json(requestData);
+      } catch (err) {
+        res.status(500).json({ err: err });
+      }
+})
+
 
 //delete book
 router.delete("/delete-book", async (req, res) => {

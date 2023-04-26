@@ -7,7 +7,7 @@ const bcrypt =require("bcrypt");
 const crypto = require("crypto");
 const { log } = require("console");
 
-
+//---------------------------------------------------------------------------------------------------------------
 //REGISTERATION
 router.post("/register",body("email").isEmail().withMessage("please enter a valid email!"),
 body("name").isString().withMessage("please enter a valid name!")
@@ -45,28 +45,16 @@ async(req,res)=>{
             email: req.body.email,
             password: await bcrypt.hash(req.body.password , 10),
             phone: req.body.phone,
-            status: req.body.status,
-            type: req.body.type, 
-            token: crypto.randomBytes(16).toString("hex"),
         };
-        //4- insert user object into db
-        await query("insert into user set ?",userData);
-        await query("select id from user where email = ?",[userData.email],(err,result,fields)=>{
-            if(err){
-                res.status(400).json({errors:
-                    [
-                        {
-                            "msg":"id not found"
-                        }
-                    ],
-            }
-        );
-    }
-    const pendingData = {
-        user_id : result[0],
-        status : "pending"
-    };
-});   
+        // //4- insert user object into db
+        // await query("insert into user set ?",userData);
+        const pendinguser = {
+            name : userData.name,
+            email: userData.email,
+            password: userData.password,
+            phone: userData.phone,
+        }; 
+    await query("insert into pending_user set ?",[pendinguser]);
     delete userData.password;
     res.status(200).json(userData);   
 }
@@ -74,6 +62,10 @@ async(req,res)=>{
         res.status(500).json({err:err});
     }
 });
+
+//------------------------------------------------------------------------------------------------------------
+
+
 
 //LOGIN
 router.get("/login",

@@ -9,6 +9,11 @@ const { body, validationResult } = require("express-validator");
 const upload = require("../middleware/uploadimages");
 
 const fs = require("fs");
+
+
+
+const portNumber = ":4000";
+
 // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> THIS IS CRUD MODUL FOR BOOKS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<=
 // Creating a book
 router.post(
@@ -122,7 +127,7 @@ router.put(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      // 2- CHECK IF MOVIE EXISTS OR NOT
+      // 2- CHECK IF BOOK EXISTS OR NOT
       const book = await query("select * from book where id = ?", [
         req.params.id,
       ]);
@@ -183,6 +188,40 @@ router.delete(
     }
   }
 );  
+// view all books  & Search Books 
+router.get("/view-books", async(req, res)=> {
+  const query = util.promisify(conn.query).bind(conn);
+  const books = await query("select * from book");
+  books.map((book) => {
+    book.image_url = "http://" + req.hostname + portNumber + '/' + book.image_url;
+  })
+  res.status(200).json(books);
+});
+
+
+
+// search book by id  
+router.get("/search-books/:id", async (req, res) => {
+  const query = util.promisify(conn.query).bind(conn);
+  const book = await query("select * from book where id = ?", [
+    req.params.id,
+  ]);
+
+  if (!book[0]) {
+    res.status(404).json({ ms: "book not found !" });
+    
+  } else {
+    book[0].image_url = "http://" + req.hostname + ":4000/" + book[0].image_url;
+    res.status(200).json(book[0]);
+  }
+  
+});
+
+
+
+
+
+
 
 
 // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CRUD BOOK ENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 

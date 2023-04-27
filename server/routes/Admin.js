@@ -9,7 +9,7 @@ const { body, validationResult } = require("express-validator");
 const upload = require("../middleware/uploadimages");
 
 const fs = require("fs");
-
+// =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> THIS IS CRUD MODUL FOR BOOKS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<=
 // Creating a book
 router.post(
   "/create-book",
@@ -61,7 +61,7 @@ router.post(
         });
       }
 
-      // 3- PREPARE MOVIE OBJECT
+      // 3- PREPARE BOOK OBJECT
         const book = {
           ISBN: req.body.isbn,
           author: req.body.author,
@@ -71,11 +71,84 @@ router.post(
           image_url: req.file.filename,
         };
 
-      // 4 - INSERT MOVIE INTO DB
+      // 4 - INSERT BOOK INTO DB
       const query = util.promisify(conn.query).bind(conn);
       await query("insert into book set ? ", book);
       res.status(200).json({
-        msg: "movie created successfully !",
+        msg: "Book created successfully !",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+);
+// update book
+router.put(
+  "/update-book/:id", // params
+  admin,
+  upload.single("image_url"),
+  body("isbn")
+    .isInt()
+    .withMessage("please enter a valid isbn")
+    .isLength({ min: 1 })
+    .withMessage("enter a valid isbn"),
+
+  body("title")
+    .isString()
+    .withMessage("please enter a valid title")
+    .isLength({ min: 3 })
+    .withMessage("title  should be at lease 3 characters"),
+  body("author")
+    .isString()
+    .withMessage("please enter a valid author name")
+    .isLength({ min: 3 })
+    .withMessage("author name should be at lease 3 characters"),
+  body("subject")
+    .isString()
+    .withMessage("please enter a valid title")
+    .isLength({ min: 4 })
+    .withMessage("subject  should be at lease 4 characters"),
+  body("rack_number")
+    .isInt()
+    .withMessage("please enter a valid rack number")
+    .isLength({ min: 1 })
+    .withMessage("enter a valid racknumber"),
+  async (req, res) => {
+    try {
+      // 1- VALIDATION REQUEST [manual, express validation]
+      const query = util.promisify(conn.query).bind(conn);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      // 2- CHECK IF MOVIE EXISTS OR NOT
+      const book = await query("select * from book where id = ?", [
+        req.params.id,
+      ]);
+      if (!book[0]) {
+        res.status(404).json({ ms: "book not found !" });
+      }
+
+      // 3- PREPARE BOOK OBJECT
+      const bookObj = {
+          ISBN: req.body.isbn,
+          author: req.body.author,
+          title: req.body.title,
+          subject: req.body.subject,
+          rack_number: req.body.rack_number,
+        };
+
+      if (req.file) {
+        bookObj.image_url = req.file.filename;
+        fs.unlinkSync("./upload/" + book[0].image_url); // delete old image
+      }
+
+      // 4- UPDATE MOVIE
+      await query("update book set ? where id = ?", [bookObj, book[0].id]);
+
+      res.status(200).json({
+        msg: "book updated successfully",
       });
     } catch (err) {
       res.status(500).json(err);
@@ -83,6 +156,36 @@ router.post(
   }
 );
 
+//delete book
+router.delete(
+  "/delete-book/:id", // params
+  admin,
+  async (req, res) => {
+    try {
+      // 1- CHECK IF BOOK EXISTS OR NOT
+      const query = util.promisify(conn.query).bind(conn);
+      const book = await query("select * from book where id = ?", [
+        req.params.id,
+      ]);
+
+      if (!book[0]) {
+        res.status(404).json({ ms: "book not found !" });
+      }
+
+      // 2- REMOVE BOOK IMAGE
+      fs.unlinkSync("./upload/" + book[0].image_url); // delete old image
+      await query("delete from book where id = ?", [book[0].id]);
+      res.status(200).json({
+        msg: "book delete successfully",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+);  
+
+
+// =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CRUD BOOK ENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
 //view all pending users
 router.get("/view-allusers", admin, async (req, res) => {
   try {
@@ -259,9 +362,6 @@ router.get("/history/:id",async(req,res)=>{
     }
   });
 //---------------------------------------------------------------------------------------------------------------------------------------------
-//delete book
-router.delete("/delete-book", async (req, res) => {
-  res.status(200).json("successfully deleted");
-});
+
 
 module.exports = router;

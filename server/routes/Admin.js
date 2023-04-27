@@ -188,16 +188,35 @@ router.delete(
     }
   }
 );  
+
 // view all books  & Search Books 
+// view books if passed a query parameter becomes our search function by all attributes 
+// It's a one function that handles all from the fronted 
 router.get("/view-books", async(req, res)=> {
   const query = util.promisify(conn.query).bind(conn);
-  const books = await query("select * from book");
+  let search = "";
+  if (req.query.search) {
+    // query parameters 
+      const key =  req.query.search;
+      
+      if (isIntegerString(key)) {
+        search = `where ISBN = ${parseInt(key)} or  rack_number = ${parseInt(key)}`;
+      } else {
+        search = `where author regexp "${key}" or title regexp "${key}" or subject regexp "${key}"`;
+      }
+    }
+  
+  const books = await query(`select * from book ${search}`);
   books.map((book) => {
     book.image_url = "http://" + req.hostname + portNumber + '/' + book.image_url;
   })
   res.status(200).json(books);
-});
 
+
+  function isIntegerString(str) {
+    return /^\d+$/.test(str);
+  }
+});
 
 
 // search book by id  

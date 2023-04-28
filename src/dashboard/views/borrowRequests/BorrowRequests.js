@@ -1,17 +1,42 @@
 import React from "react";
 import DataTable from 'react-data-table-component';
 import { data, userData } from '../../helper/helper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const BorrowRequests = () => {
     
     //Used to render users whose borrow requests are still pending
+        // object to save
+        const [BorrowRequests, setBorrowRequests] = useState({
+            loading: true,
+            results: [],
+            err: null,
+            reload: 0
+        });
+        //use effect load when enter the page
+        useEffect(() => {
+            setBorrowRequests({ ...BorrowRequests, loading: true });    
+            axios
+                .get("http://localhost:4000/admin/show-borrowed")
+                .then((res) => {
+                    console.log(BorrowRequests);
+                    setBorrowRequests({ ...BorrowRequests, results: res.data, loading: false, err: null })
+                })
+                .catch((err) => {
+                    setBorrowRequests({
+                        ...BorrowRequests,
+                        loading: false,
+                        err: "something went wrong, please try again later !"
+                    })
+                })
+        }, []);
 
-    const [currdata, setData] = useState(() => {
-        return data.filter(
-            (item) => item.borrowStatus !== "Accepted" && item.borrowStatus !== "Rejected" 
-        )
-    });
+    // const [currdata, setData] = useState(() => {
+    //     return data.filter(
+    //         (item) => item.borrowStatus !== "Accepted" && item.borrowStatus !== "Rejected" 
+    //     )
+    // });
     
     const columns = [
         {

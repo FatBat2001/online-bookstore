@@ -341,7 +341,7 @@ router.post("/borrow-request/:id", async (req, res) => {
             userid: req.body.userid,
             bookid: req.params.id,
             status: "pending",
-            ret_date: req.body.date,
+            ret_date: req.body.ret_date,
         }
         //INSERT REQUEST DATA TO "requested_book"
         const user = await query("insert into requested_book set ?", [

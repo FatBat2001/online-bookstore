@@ -1,19 +1,41 @@
 import DataTable from 'react-data-table-component';
 import '../../styling/dashboard.css'
 import { Link } from 'react-router-dom';
-import { data } from '../../helper/helper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 const AllBooks = () => {
-
-    const [currdata, setData] = useState(data);
+    // object to save
+    const [books, setBooks] = useState({
+        loading: true,
+        results: [],
+        err: null,
+        reload: 0
+    });
+    //use effect load when enter the page
+    useEffect(() => {
+        setBooks({ ...books, loading: true });    
+        axios
+            .get("http://localhost:4000/books/view-books")
+            .then((res) => {
+                console.log(books);
+                setBooks({ ...books, results: res.data, loading: false, err: null })
+            })
+            .catch((err) => {
+                setBooks({
+                    ...books,
+                    loading: false,
+                    err: "something went wrong, please try again later !"
+                })
+            })
+    }, []);
 
     const columns = [
         {
             name: 'Photo',
             selector: row => (
-                <img src={row.photo} width={70} />
+                <img src={row.image_url} width={70} />
             ),
             center: true
         },
@@ -31,13 +53,13 @@ const AllBooks = () => {
         },
         {
             name: 'Category',
-            selector: row => row.category,
+            selector: row => row.subject,
             sortable: true,
             center: true
         },
         {
             name: 'Rack',
-            selector: row => row.rackNumber,
+            selector: row => row.rack_number,
             sortable: true,
             center: true
         },
@@ -59,7 +81,7 @@ const AllBooks = () => {
     ];
 
     const handleDelete = (params) => {
-        setData(currdata.filter((item) => item.id !== params.id))
+        setBooks(books.results.filter((item) => item.id !== params.id))
     };
 
     const updateBook = (param) => {
@@ -94,7 +116,7 @@ const AllBooks = () => {
             </div>
             <DataTable
                 columns={columns}
-                data={currdata}
+                data={books.results}
                 selectableRows
                 pagination
             />

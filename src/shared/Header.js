@@ -1,12 +1,12 @@
 import "../styles/Header.css";
-import image from "../assets/images/logo.jpg";
+import image from "../assets/images/logo-inverted.jpeg";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header className="main-header">
-      <div className="logo">
+      <Link to={"/"} className="logo">
         <img src={image} alt="" className="image" />
-      </div>
+      </Link>
       <nav>
         <ul>
           <li>

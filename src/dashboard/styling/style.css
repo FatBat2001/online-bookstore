@@ -1,3 +1,5 @@
+
+
 .list-type-none {
     list-style-type: none;
 }
@@ -14,7 +16,6 @@
 
 .sidebar-inner-container {
     width: 16rem;
-    overflow-y: scroll;
     background-color: black;
     margin-right: 0;
 }
@@ -210,6 +211,9 @@
     border-radius: 0.25rem;
     text-decoration: none;
     color: rgb(140, 153, 182);
+}
+
+.w-100 {
     width: 100%;
 }
 

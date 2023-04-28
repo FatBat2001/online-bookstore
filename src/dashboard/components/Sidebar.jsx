@@ -51,7 +51,7 @@ c-192 -61 -214 -66 -253 -58 -27 6 -59 7 -84 1 -37 -8 -45 -6 -102 28 -78 48
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 12.25H14.25" />
                                         </svg>
                                     </div>
-                                    <Link to={"books/"} className="itemLink">Books</Link>
+                                    <Link to={"books/"} className="itemLink w-100">Books</Link>
                                 </div>
                             </div>
                             <div className="dropdown-container">
@@ -73,13 +73,13 @@ c-192 -61 -214 -66 -253 -58 -27 6 -59 7 -84 1 -37 -8 -45 -6 -102 28 -78 48
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 12.25H14.25" />
                                         </svg>
                                     </div>
-                                    <Link to={"/dashboard/borrowReq/"} className="itemLink">Borrows Request</Link>
+                                    <a href="#" className="itemLink w-100">Borrow Requests</a>
                                 </div>
                             </div>
                             <div className="dropdown-container">
                                 <ul className="sidebar-dropdown">
                                     <li>
-                                        <Link to={"borrowReq/history"} className="sidebar-dropdown-item">Borrows History</Link>
+                                        <a href="#" className="sidebar-dropdown-item">Requests History</a>
                                     </li>
                                 </ul>
                             </div>
@@ -95,13 +95,13 @@ c-192 -61 -214 -66 -253 -58 -27 6 -59 7 -84 1 -37 -8 -45 -6 -102 28 -78 48
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 12.25H14.25" />
                                         </svg>
                                     </div>
-                                    <Link to={"/dashboard/accountReq/"} className="itemLink">Accounts Request</Link>
+                                    <a href="#" className="itemLink w-100">Accounts Requests</a>
                                 </div>
                             </div>
                             <div className="dropdown-container">
                                 <ul className="sidebar-dropdown">
                                     <li>
-                                        <Link to={"accountReq/history"} className="sidebar-dropdown-item">Accounts History</Link>
+                                        <a href="#" className="sidebar-dropdown-item">Accounts History</a>
                                     </li>
                                 </ul>
                             </div>

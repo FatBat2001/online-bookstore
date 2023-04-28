@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 const AccountRequests = () => {
 
+    
     //Used to render users whose account requests are still pending
     
     const [currdata, setData] = useState(() => {

@@ -1,7 +1,8 @@
 import React from "react";
 import DataTable from 'react-data-table-component';
 import { data, userData } from '../../helper/helper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const BorrowHistory = () => {
 

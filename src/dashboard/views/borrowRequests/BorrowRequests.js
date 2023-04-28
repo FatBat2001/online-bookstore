@@ -18,9 +18,10 @@ const BorrowRequests = () => {
         useEffect(() => {
             setBorrowRequests({ ...BorrowRequests, loading: true });    
             axios
-                .get("http://localhost:4000/admin/show-borrowed")
+                .get("http://localhost:4000/admin/get-request")
                 .then((res) => {
-                    console.log(BorrowRequests);
+                    const {username , bookData , ret_data} = BorrowRequests.results;
+                    console.log(BorrowRequests.results);
                     setBorrowRequests({ ...BorrowRequests, results: res.data, loading: false, err: null })
                 })
                 .catch((err) => {
@@ -47,7 +48,7 @@ const BorrowRequests = () => {
         },
         {
             name: 'Photo',
-            selector: row => (<img src={row.photo} width={70} />),
+            selector: row => (<img src={row.image_url} width={70} />),
             sortable: false,
             center: true
         },
@@ -65,7 +66,7 @@ const BorrowRequests = () => {
         },
         {
             name: 'Rack',
-            selector: row => row.rackNumber,
+            selector: row => row.rack_number,
             sortable: true,
             center: true
         },
@@ -92,11 +93,11 @@ const BorrowRequests = () => {
     
 
     const deleteDataRow = (id) => {
-        let arr = [...currdata]
+        let arr = [...BorrowRequests]
         arr = arr.filter(
             (item) => id != item.id
         )
-        setData(arr)
+        setBorrowRequests(arr)
         console.log(arr);
     };
 
@@ -111,7 +112,7 @@ const BorrowRequests = () => {
         </div>
         <DataTable
         columns={columns}
-        data={currdata}
+        data={BorrowRequests.results}
         pagination
         />
         </>

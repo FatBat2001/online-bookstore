@@ -46,6 +46,14 @@ export const router = createBrowserRouter([
         path: "contact",
         element: <Contact />
       },
+      {
+        path: '/Login',
+        element: <LoginForm />,
+      },
+      {
+        path: '/Register',
+        element: <RegistrationForm />,
+      }
     ]
   },
   {
@@ -107,14 +115,7 @@ export const router = createBrowserRouter([
     path: "*",
     element: <NotFound />
   },
-  {
-    path: '/Login',
-    element: <LoginForm />,
-  },
-  {
-    path: '/Register',
-    element: <RegistrationForm />,
-  }
+  
 
 ]);
 

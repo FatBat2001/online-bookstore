@@ -7,12 +7,36 @@ import axios from 'axios';
 const BorrowHistory = () => {
 
     //Used to render users whose borrow requests got either Accepted or Rejected
-    
-    const [currdata, setData] = useState(() => {
-        return data.filter(
-            (item) => item.borrowStatus == "Accepted" || item.borrowStatus == "Rejected"
-        )
+     // object to save
+     const [borrowHistory, setBorrowHistory] = useState({
+        loading: true,
+        results: [],
+        err: null,
+        reload: 0
     });
+    //use effect load when enter the page
+    useEffect(() => {
+        setBorrowHistory({ ...borrowHistory, loading: true });    
+        axios
+            .get("http://localhost:4000/admin/get-request")
+            .then((res) => {
+                const {username , bookData , ret_data} = borrowHistory.results;
+                console.log(borrowHistory.results);
+                setBorrowHistory({ ...borrowHistory, results: res.data, loading: false, err: null })
+            })
+            .catch((err) => {
+                setBorrowHistory({
+                    ...borrowHistory,
+                    loading: false,
+                    err: "something went wrong, please try again later !"
+                })
+            })
+    }, []);
+    // const [currdata, setData] = useState(() => {
+    //     return data.filter(
+    //         (item) => item.borrowStatus == "Accepted" || item.borrowStatus == "Rejected"
+    //     )
+    // });
     
     const columns = [
         {
@@ -23,7 +47,7 @@ const BorrowHistory = () => {
         },
         {
             name: 'Photo',
-            selector: row => (<img src={row.photo} width={70} />),
+            selector: row => (<img src={row.image_url} width={70} />),
             sortable: false,
             center: true
         },
@@ -41,7 +65,7 @@ const BorrowHistory = () => {
         },
         {
             name: 'Rack',
-            selector: row => row.rackNumber,
+            selector: row => row.rack_number,
             sortable: true,
             center: true
         },
@@ -52,8 +76,9 @@ const BorrowHistory = () => {
             center: true
         },
         {
+            //not working for unkown reasons O.K data is sent from backend
             name: 'Status',
-            selector: row => row.borrowStatus,
+            selector: row => row.status,
             sortable: true,
             center: true
         },
@@ -72,7 +97,7 @@ const BorrowHistory = () => {
         </div>
         <DataTable
         columns={columns}
-        data={currdata}
+        data={borrowHistory.results}
         pagination
         />
         </>

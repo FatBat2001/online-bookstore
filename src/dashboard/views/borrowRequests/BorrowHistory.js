@@ -18,7 +18,7 @@ const BorrowHistory = () => {
     useEffect(() => {
         setBorrowHistory({ ...borrowHistory, loading: true });    
         axios
-            .get("http://localhost:4000/admin/get-request")
+            .get("http://localhost:4000/admin/get-borrow-history")
             .then((res) => {
                 const {username , bookData , ret_data} = borrowHistory.results;
                 console.log(borrowHistory.results);
@@ -76,7 +76,6 @@ const BorrowHistory = () => {
             center: true
         },
         {
-            //not working for unkown reasons O.K data is sent from backend
             name: 'Status',
             selector: row => row.status,
             sortable: true,

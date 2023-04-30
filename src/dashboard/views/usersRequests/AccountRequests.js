@@ -6,8 +6,25 @@ import axios from 'axios';
 
 const AccountRequests = () => {
 
-    
+    const [accId, setAccId] = useState()
+    const [accStatus, setAccStatus] = useState()
     //Used to render users whose account requests are still pending
+    const submitAccRequest = () => {
+        const url = "http://localhost:4000/admin/accept-user/" + accId
+        console.log(accId);
+        axios
+          .post(url,accStatus,{
+            header:{
+                token : "520d8e5e880254ea31d7dd1fda14bcb6",
+            }
+          })
+          .then((resp) => {
+            console.log(resp);
+          })
+          .catch((errors) => {
+            console.log(errors);
+          });
+      }; 
 
     const [currpendinguser, setpendinguser] = useState({
         loading: true,
@@ -40,7 +57,7 @@ const AccountRequests = () => {
     const columns = [
         {
             name: 'User Name',
-            selector: row => row.name,
+            selector: row => row.id,
             sortable: true,
             center: true
         },
@@ -58,13 +75,13 @@ const AccountRequests = () => {
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {deleteDataRow(data.id)}} id={data.id}>Accept</button>,
+            cell:(data)=><button onClick={() => {handleAccept(data.id)}} id={data.id}>Accept</button>,
             sortable: false,
             center: true
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {deleteDataRow(data.id)}} id={data.id}>Reject</button>,
+            cell:(data)=><button  onClick={() => {handleReject(data.id)}} id={data.id}>Reject</button>,
             sortable: false,
             center: true
         },
@@ -72,13 +89,22 @@ const AccountRequests = () => {
     
     
 
-    const deleteDataRow = (id) => {
-        let arr = [...currpendinguser]
-        arr = arr.filter(
+    const handleAccept = (id) => {
+        setAccId(id-1)
+        setAccStatus(1)
+        currpendinguser.results = currpendinguser.results.filter(
             (item) => id != item.id
         )
-        setpendinguser(arr)
-        console.log(arr);
+        submitAccRequest()
+    };
+
+    const handleReject = (id) => {
+        setAccId(id)
+        setAccStatus(0)
+        currpendinguser.results = currpendinguser.results.filter(
+            (item) => id != item.id
+        )
+        submitAccRequest()
     };
 
     return (

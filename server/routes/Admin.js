@@ -372,7 +372,7 @@ router.get("/view-pending", admin, async (req, res) => {
 
 //---------------------------------------------------------------------------------------------------------
 //accept user
-router.post("/accept-user/:id/:status", async (req, res) => {
+router.post("/accept-user/:id", async (req, res) => {
   try {
     //2- check if email exists
     //await  / async
@@ -392,11 +392,12 @@ router.post("/accept-user/:id/:status", async (req, res) => {
       token: crypto.randomBytes(16).toString("hex"),
     };
     //1 = accepted // 0 = rejected
-    if (req.params.status === "1") {
+    if (req.body.status === "1") {
       await query("insert into user set ?", [userData]);
     }
     await query("delete from pending_user where id = ?", [req.params.id]);
     delete userData.password;
+
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({ err: err });
@@ -512,7 +513,7 @@ router.get("/pending-user",async(req,res)=>{
       
     } catch (err) {
 
-      res.status(500).json({ err: err });
+      res.status(500).json({ err: err } );
     }
   });
 

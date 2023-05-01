@@ -25,7 +25,7 @@ const LoginForm = () => {
       .then((resp) => {
         console.log(resp.data[0]);
         setLogin({ ...login, loading: false, err: [], userData: resp.data[0] });
-        setAuthUser(login.userData);
+        setAuthUser(resp.data[0]);
         navigate("/");
       })
       .catch((errors) => {

@@ -25,7 +25,7 @@ const ProductList = (props) => {
                 return <
                 ProductCard 
                 id = {item.id}
-                key={item.id}
+                key={Date.now() * Math.random()}
                 name={item.title}
                 description={item.subject}
                 imageLink={item.image_url}

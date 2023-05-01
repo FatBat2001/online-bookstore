@@ -305,7 +305,44 @@ catch (err) {
 }
 });
 //------------------------------------------------------------------------------------------------------------------
+//get borrow history 
+router.get("/get-borrow-history",async(req,res)=>{
+  try{
+  const query = util.promisify(conn.query).bind(conn);
+  //get requested books id & the userid
+  const borrowhistory = await query("select * from requested_book");
+  //get the book details from bookid 
 
+  let arr = []
+  let borrowRequestData = {}
+  let books = []
+
+  for (let index = 0; index < borrowhistory.length; index++) {
+    let users = await query("select name from user where id = ?",[borrowhistory[index].userid]);
+    books = await query("select * from book where id = ?",[borrowhistory[index].bookid]);
+    console.log(books[0].isbn);
+    borrowRequestData = {
+      userName: users[0].name,
+      bookId: books[0].id,
+      ISBN: books[0].ISBN,
+      title: books[0].title,
+      author: books[0].author,
+      image_url: "http://" + req.hostname + ":4000/" + books[0].image_url,
+      rack_number: books[0].rack_number,
+      status: borrowhistory[index].status
+    }
+    arr[index] = borrowRequestData
+  }
+  //get the user name from userid
+  res.status(200).json(arr);
+  //format an object to view to the front end
+  
+}
+catch (err) {
+  console.log(err);
+  res.status(500).json({ err: err });
+}
+});
 
 
 

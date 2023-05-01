@@ -2,7 +2,14 @@ import "../styles/Header.css";
 import image from "../assets/images/logo-inverted.jpeg";
 import { Link } from "react-router-dom";
 import { removeAuthUser } from "../helper/Storage";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();  
+  const logout = () => {
+    removeAuthUser();
+    navigate("/");
+  };
+  
   return (
     <header className="main-header">
       <Link to={"/"} className="logo">
@@ -39,11 +46,14 @@ const Header = () => {
               </Link>
             </li>
             {/* user && admin view      */}
-            <li>
-              <Link onClick={() => {removeAuthUser()}} className="Link">
+            
+              <button style={{
+                textDecoration:"none"
+              }}
+              onClick={logout} className="Link">
                 logout
-              </Link>
-            </li>
+              </button>
+            
           
           </div>
         </ul>

@@ -17,10 +17,10 @@ const book_now = (id) => {
     axios
       .post(borrow_endpoint_path, { userid: getAuthUser().id })
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
       })
       .catch((errors) => {
-        console.log(errors);
+        // console.log(errors);
       });
   } else {
     alert('please login or register to borrow a book')

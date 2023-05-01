@@ -17,7 +17,7 @@ router.post("/borrow-request/:id", async (req, res) => {
   try {
     const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
     //REQUEST DATA
-    console.log(req);
+    // console.log(req);
     const requestData = {
       userid: req.body.userid,
       bookid: req.params.id,

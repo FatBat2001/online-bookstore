@@ -405,31 +405,9 @@ router.post("/accept-user/:id", async (req, res) => {
   }
 });
 
-//add user (approve / reject)
 
 
-//borrow request (approve reject)
-router.post("/borrow-request/:id", async (req, res) => {
-    try {
-        const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
-        //REQUEST DATA
-        const requestData = {
-            userid: req.body.userid,
-            bookid: req.params.id,
-            status: "pending",
-            ret_date: req.body.ret_date,
-        }
-        //INSERT REQUEST DATA TO "requested_book"
-        const user = await query("insert into requested_book set ?", [
-          requestData
-        ]);
-    
-        
-        res.status(200).json(requestData);
-      } catch (err) {
-        res.status(500).json({ err: err });
-      }
-})
+
 
 //manage borrowed reqs
 router.put("/manage-reqs/:id/:status",

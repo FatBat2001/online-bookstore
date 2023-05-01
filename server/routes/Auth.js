@@ -98,7 +98,7 @@ async(req,res)=>{
         }
  
         //3- COMPARE PASSWORD
-        const checkpassword = (req.body.password == user[0].password);
+        const checkpassword = (req.body.password === user[0].password);
         if(checkpassword){
             delete user[0].password;
             res.status(200).json(user)

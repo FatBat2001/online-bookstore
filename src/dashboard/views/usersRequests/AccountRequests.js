@@ -9,16 +9,19 @@ const AccountRequests = () => {
     const [accId, setAccId] = useState()
     const [accStatus, setAccStatus] = useState()
     //Used to render users whose account requests are still pending
-    const submitAccRequest = () => {
+    const handleStatus = (accId,stat) => {
         const url = "http://localhost:4000/admin/accept-user/" + accId
         console.log(accId);
         axios
-          .post(url,accStatus,{
+          .post(url, {
+            status: stat
+          },{
             header:{
                 token : "520d8e5e880254ea31d7dd1fda14bcb6",
             }
           })
           .then((resp) => {
+            window.location.reload();
             console.log(resp);
           })
           .catch((errors) => {
@@ -75,13 +78,13 @@ const AccountRequests = () => {
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {handleAccept(data.id)}} id={data.id}>Accept</button>,
+            cell:(data)=><button onClick={() => {handleStatus(data.id,"1")}} id={data.id}>Accept</button>,
             sortable: false,
             center: true
         },
         {
             name: '',
-            cell:(data)=><button  onClick={() => {handleReject(data.id)}} id={data.id}>Reject</button>,
+            cell:(data)=><button  onClick={() => {handleStatus(data.id,"0")}} id={data.id}>Reject</button>,
             sortable: false,
             center: true
         },
@@ -89,23 +92,23 @@ const AccountRequests = () => {
     
     
 
-    const handleAccept = (id) => {
-        setAccId(id-1)
-        setAccStatus(1)
-        currpendinguser.results = currpendinguser.results.filter(
-            (item) => id != item.id
-        )
-        submitAccRequest()
-    };
+    // const handleAccept = (id) => {
+    //     setAccId(id)
+    //     setAccStatus(1)
+    //     currpendinguser.results = currpendinguser.results.filter(
+    //         (item) => id != item.id
+    //     )
+    //     submitAccRequest()
+    // };
 
-    const handleReject = (id) => {
-        setAccId(id)
-        setAccStatus(0)
-        currpendinguser.results = currpendinguser.results.filter(
-            (item) => id != item.id
-        )
-        submitAccRequest()
-    };
+    // const handleReject = (id) => {
+    //     setAccId(id)
+    //     setAccStatus(0)
+    //     currpendinguser.results = currpendinguser.results.filter(
+    //         (item) => id != item.id
+    //     )
+    //     submitAccRequest()
+    // };
 
     return (
         <>

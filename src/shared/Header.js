@@ -1,6 +1,7 @@
 import "../styles/Header.css";
 import image from "../assets/images/logo-inverted.jpeg";
 import { Link } from "react-router-dom";
+import { removeAuthUser } from "../helper/Storage";
 const Header = () => {
   return (
     <header className="main-header">
@@ -25,6 +26,8 @@ const Header = () => {
             </Link>
           </li>
           <div className="login-register">
+            
+            {/* guest user view  */}
             <li>
               <Link to={"/Login"} className="Link">
                 Login
@@ -35,6 +38,13 @@ const Header = () => {
                 Register
               </Link>
             </li>
+            {/* user && admin view      */}
+            <li>
+              <Link onClick={() => {removeAuthUser()}} className="Link">
+                logout
+              </Link>
+            </li>
+          
           </div>
         </ul>
       </nav>

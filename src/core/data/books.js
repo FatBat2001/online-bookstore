@@ -1,66 +1,66 @@
  export const Data = [
     {
         id:1,
-        name:'Black Adam',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200',
+        title:'Black Adam',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200',
         author:'Adham Khaled'
     },
 
     {
         id:2,
-        name:'Valorant',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200',
+        title:'Valorant',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200',
         author:'Adham Khaled'
     },
     
     {
         id:3,
-        name:'Fast and furious',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200',
+        title:'Fast and furious',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200',
         author:'Adham Khaled'
     },
     {
         id:4,
-        name:'Lucifer',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200',
+        title:'Lucifer',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200',
         author:'Adham Khaled'
     },
     
     {
         id:5,
-        name:'Venom',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200',
+        title:'Venom',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200',
         author:'Adham Khaled'
     },
     
     {
         id:6,
-        name:'Harry Potter',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200'
+        title:'Harry Potter',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200'
         ,
         author:'Adham Khaled'
     },
     
     {
         id:7,
-        name:'Split',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200'
+        title:'Split',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200'
         ,
         author:'Adham Khaled'
     },
     
     {
         id:8,
-        name:'Black Adam',
-        description:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        image:'https://picsum.photos/200'
+        title:'Black Adam',
+        subject:'lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+        image_url:'https://picsum.photos/200'
         ,
         author:'Adham Khaled'
     },

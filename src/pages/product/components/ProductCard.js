@@ -19,9 +19,11 @@ const ProductCard = (props) => {
         {/* Calling Events in React */}
         {/* <button onClick= {()=>props.watch(props.id)}>Watch Now</button> */}
 
-        <button>
-          <Link to={"/product-info/" + props.id}>Read Now</Link>
-        </button>
+        {
+          !props.isBorrowed && (<button>
+            <Link to={"/product-info/" + props.id}>Read Now</Link>
+          </button>)
+        }
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ const ProductList = (props) => {
     const books = props.data;
     
     const items = books.results;
+    // const items = Data;
     const renderData = () => {
         return items.map(
             (item)=> {
@@ -30,6 +31,7 @@ const ProductList = (props) => {
                 imageLink={item.image_url}
                 author = {item.author}
                 watch = {watchNow}
+                isBorrowed = {books.borrow}
             />
             }
         )

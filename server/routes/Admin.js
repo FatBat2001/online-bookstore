@@ -267,11 +267,11 @@ router.get("/search-books/:id", async (req, res) => {
 });
 
 //get borrowed requests with book details and user name
-router.get("/get-request",async(req,res)=>{
+router.get("/get-request",admin,async(req,res)=>{
   try{
   const query = util.promisify(conn.query).bind(conn);
   //get requested books id & the userid
-  const requestedbooks = await query("select * from requested_book");
+  const requestedbooks = await query("select * from requested_book where status = ?",["pending"]);
   //get the book details from bookid 
 
   let arr = []
@@ -283,6 +283,7 @@ router.get("/get-request",async(req,res)=>{
     books = await query("select * from book where id = ?",[requestedbooks[index].bookid]);
     console.log(books[0].isbn);
     borrowRequestData = {
+      id : requestedbooks[index].id,
       userName: users[0].name,
       bookId: books[0].id,
       ISBN: books[0].ISBN,
@@ -440,15 +441,16 @@ router.post("/accept-user/:id", async (req, res) => {
 
 
 //manage borrowed reqs
-router.put("/manage-reqs/:id/:status",
+router.put("/manage-reqs/:id",
 async(req,res)=>{
     try {
         const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
         //status -> 1 accept // 0 -> reject
         let appliedstatus = "";
-        if(req.params.status == "1"){
+        if(req.body.status == "1"){
             appliedstatus = "accepted";
         }
+
         else{
             appliedstatus = "rejected";
         }

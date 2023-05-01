@@ -5,7 +5,28 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const BorrowRequests = () => {
-    
+
+    const handleStatus = (reqId, stat) => {
+        const url = "http://localhost:4000/admin/manage-reqs/" + reqId;
+        console.log(stat);
+        axios
+            .put(url, {
+                status: stat
+            }, {
+                headers: {
+                    token: "520d8e5e880254ea31d7dd1fda14bcb6",
+                }
+            })
+            .then((resp) => {
+                window.location.reload();
+                console.log(resp);
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+    };
+
+
     //Used to render users whose borrow requests are still pending
         // object to save
         const [BorrowRequests, setBorrowRequests] = useState({
@@ -18,7 +39,11 @@ const BorrowRequests = () => {
         useEffect(() => {
             setBorrowRequests({ ...BorrowRequests, loading: true });    
             axios
-                .get("http://localhost:4000/admin/get-request")
+                .get("http://localhost:4000/admin/get-request", {
+                    headers: {
+                        token: "520d8e5e880254ea31d7dd1fda14bcb6",
+                    }
+                })
                 .then((res) => {
                     const {username , bookData , ret_data} = BorrowRequests.results;
                     console.log(BorrowRequests.results);
@@ -40,6 +65,12 @@ const BorrowRequests = () => {
     // });
     
     const columns = [
+        {
+            name: 'ID',
+            selector: row => row.id,
+            sortable: true,
+            center: true
+        },
         {
             name: 'User',
             selector: row => row.userName,
@@ -64,12 +95,12 @@ const BorrowRequests = () => {
             sortable: true,
             center: true
         },
-        {
-            name: 'Rack',
-            selector: row => row.rack_number,
-            sortable: true,
-            center: true
-        },
+        // {
+        //     name: 'Rack',
+        //     selector: row => row.rack_number,
+        //     sortable: true,
+        //     center: true
+        // },
         {
             name: 'ISBN',
             selector: row => row.ISBN,
@@ -78,13 +109,13 @@ const BorrowRequests = () => {
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {deleteDataRow(data.id)}} id={data.id}>Accept</button>,
+            cell:(data)=><button onClick={() => { handleStatus(data.id, "1") }} id={data.id}>Accept</button>,
             sortable: false,
             center: true
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {deleteDataRow(data.id)}} id={data.id}>Reject</button>,
+            cell:(data)=><button onClick={() => { handleStatus(data.id, "0") }} id={data.id}>Reject</button>,
             sortable: false,
             center: true
         },

@@ -189,6 +189,36 @@ router.delete(
   }
 );  
 
+//delete books
+router.delete(
+  "/delete-allBooks", // params
+  admin,
+  async (req, res) => {
+    try {
+      // 1- CHECK IF BOOK EXISTS OR NOT
+      const query = util.promisify(conn.query).bind(conn);
+      const books = await query("select * from book");
+
+      if (!books[0]) {
+        return res.status(404).json({ error: "books not found !" });
+      }
+
+      // 2- REMOVE BOOK IMAGE
+      for (let i = 0; i < books.length; i++) {
+        if (fs.existsSync("./upload/" + books[i].image_url)) {
+          fs.unlinkSync("./upload/" + books[i].image_url); // delete old image for each book
+        }
+      }
+      await query("delete from book");
+      return res.status(200).json({
+        return: "book delete successfully",
+      });
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  }
+); 
+
 // view all books  & Search Books 
 // view books if passed a query parameter becomes our search function by all attributes 
 // It's a one function that handles all from the fronted 

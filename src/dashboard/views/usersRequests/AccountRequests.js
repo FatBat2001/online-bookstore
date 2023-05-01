@@ -6,28 +6,26 @@ import axios from 'axios';
 
 const AccountRequests = () => {
 
-    const [accId, setAccId] = useState()
-    const [accStatus, setAccStatus] = useState()
     //Used to render users whose account requests are still pending
-    const handleStatus = (accId,stat) => {
+    const handleStatus = (accId, stat) => {
         const url = "http://localhost:4000/admin/accept-user/" + accId
         console.log(accId);
         axios
-          .post(url, {
-            status: stat
-          },{
-            header:{
-                token : "520d8e5e880254ea31d7dd1fda14bcb6",
-            }
-          })
-          .then((resp) => {
-            window.location.reload();
-            console.log(resp);
-          })
-          .catch((errors) => {
-            console.log(errors);
-          });
-      }; 
+            .post(url, {
+                status: stat
+            }, {
+                header: {
+                    token: "520d8e5e880254ea31d7dd1fda14bcb6",
+                }
+            })
+            .then((resp) => {
+                window.location.reload();
+                console.log(resp);
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+    };
 
     const [currpendinguser, setpendinguser] = useState({
         loading: true,
@@ -36,7 +34,7 @@ const AccountRequests = () => {
         reload: 0
     });
     useEffect(() => {
-        setpendinguser({ ...currpendinguser, loading: true });    
+        setpendinguser({ ...currpendinguser, loading: true });
         axios
             .get("http://localhost:4000/admin/pending-user")
             .then((res) => {
@@ -51,12 +49,7 @@ const AccountRequests = () => {
                 })
             })
     }, []);
-    // const [currdata, setData] = useState(() => {
-    //     return data.filter(
-    //         (item) => item.userStatus !== "Approved" && item.userStatus !== "Disapproved" 
-    //     )
-    // });
-    
+
     const columns = [
         {
             name: 'User Name',
@@ -78,52 +71,28 @@ const AccountRequests = () => {
         },
         {
             name: '',
-            cell:(data)=><button onClick={() => {handleStatus(data.id,"1")}} id={data.id}>Accept</button>,
+            cell: (data) => <button onClick={() => { handleStatus(data.id, "1") }} id={data.id}>Accept</button>,
             sortable: false,
             center: true
         },
         {
             name: '',
-            cell:(data)=><button  onClick={() => {handleStatus(data.id,"0")}} id={data.id}>Reject</button>,
+            cell: (data) => <button onClick={() => { handleStatus(data.id, "0") }} id={data.id}>Reject</button>,
             sortable: false,
             center: true
         },
     ];
-    
-    
-
-    // const handleAccept = (id) => {
-    //     setAccId(id)
-    //     setAccStatus(1)
-    //     currpendinguser.results = currpendinguser.results.filter(
-    //         (item) => id != item.id
-    //     )
-    //     submitAccRequest()
-    // };
-
-    // const handleReject = (id) => {
-    //     setAccId(id)
-    //     setAccStatus(0)
-    //     currpendinguser.results = currpendinguser.results.filter(
-    //         (item) => id != item.id
-    //     )
-    //     submitAccRequest()
-    // };
 
     return (
         <>
-        <div>
-            <h1>Account Requests</h1>
-            
             <div>
-                
+                <h1>Account Requests</h1>
             </div>
-        </div>
-        <DataTable
-        columns={columns}
-        data={currpendinguser.results}
-        pagination
-        />
+            <DataTable
+                columns={columns}
+                data={currpendinguser.results}
+                pagination
+            />
         </>
     );
 }

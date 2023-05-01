@@ -19,7 +19,7 @@ const AllBooks = () => {
         axios
             .get("http://localhost:4000/books/view-books")
             .then((res) => {
-                console.log(books);
+                console.log(books.results);
                 setBooks({ ...books, results: res.data, loading: false, err: null })
             })
             .catch((err) => {
@@ -34,9 +34,7 @@ const AllBooks = () => {
     const columns = [
         {
             name: 'Photo',
-            selector: row => (
-                <img src={row.image_url} width={70} />
-            ),
+            selector: row => (<img src={row.image_url} width={70} />),
             center: true
         },
         {
@@ -75,7 +73,7 @@ const AllBooks = () => {
             center: true
         },
         {
-            name: "",
+            name: <button>Delete All</button>,
             cell: (param) => deleteBook(param),
         },
     ];

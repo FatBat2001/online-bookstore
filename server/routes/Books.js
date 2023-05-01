@@ -32,9 +32,9 @@ router.get("/view-books", async(req, res)=> {
     }
   
   const books = await query(`select * from book ${search}`);
-  books.map((book) => {
-    book.image_url = "http://" + req.hostname + portNumber + '/' + book.image_url;
-  })
+  // books.map((book) => {
+  //   book.image_url = "http://" + req.hostname + portNumber + '/' + book.image_url;
+  // })
   res.status(200).json(books);
 
 

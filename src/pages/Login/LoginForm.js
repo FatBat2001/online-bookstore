@@ -1,26 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LoginForm.css";
-
+import axios from "axios";
+import { setAuthUser } from "../../helper/Storage";
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const login_endpoint_path = "http://localhost:4000/auth/login";
+  const navigate = useNavigate();
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+    loading: false,
+    err: [],
+    userData: null,
+  });
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
+    setLogin({ ...login, loading: true, err: [] });
+    axios
+      .post("http://localhost:4000/auth/login", {
+        email: login.email,
+        password: login.password,
+      })
+      .then((resp) => {
+        console.log(resp.data[0]);
+        setLogin({ ...login, loading: false, err: [], userData: resp.data[0] });
+        setAuthUser(login.userData);
+        navigate("/");
+      })
+      .catch((errors) => {
+        setLogin({
+          ...login,
+          loading: false,
+          err: errors.response.data.errors,
+        });
+      });
   };
 
   return (
     <div className="login-form">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <h1>Log In</h1>
         <div className="form-group">
           <label htmlFor="username"> Email</label>
           <input
             type="email"
             id="username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={login.email}
+            onChange={(e) => setLogin({ ...login, email: e.target.value })}
             required
           />
         </div>
@@ -29,17 +56,30 @@ const LoginForm = () => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={login.password}
+            onChange={(e) => setLogin({ ...login, password: e.target.value })}
             required
           />
         </div>
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={login.loading === true}>
+          Log In
+        </button>
         <div className="form-group">
           <label>
             <input type="checkbox" />
             Remember me
           </label>
+          {login.err.map((error, index) => (
+            <label
+              key={index}
+              style={{
+                background: "white",
+                color: "red",
+              }}
+            >
+              {error.msg}
+            </label>
+          ))}
         </div>
       </form>
     </div>

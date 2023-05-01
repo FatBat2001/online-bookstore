@@ -27,11 +27,20 @@ const Header = () => {
               About
             </Link>
           </li>
-          <li>
-            <Link to={"/contact"} className="Link">
-              Contact
-            </Link>
-          </li>
+          {user && user.type === "librarian" && (
+            <li>
+              <Link to={"/contact"} className="Link">
+                Dashboard
+              </Link>
+            </li>
+          )}
+          {user && user.type === "normal" && (
+            <li>
+              <Link to={"/borrowed"} className="Link">
+                Borrowed Books
+              </Link>
+            </li>
+          )}
           <div className="login-register">
             {/* guest user view  */}
 

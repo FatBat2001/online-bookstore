@@ -19,6 +19,7 @@ import Borrows from "./dashboard/views/borrowRequests/Borrows";
 import Accounts from "./dashboard/views/usersRequests/Accounts";
 import AccountRequests from "./dashboard/views/usersRequests/AccountRequests";
 import AccountHistory from "./dashboard/views/usersRequests/AccountHistory";
+import BorrowedBooks from "./pages/BorrowedBooks/BorrowedBooks";
 
 
 
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: '/Register',
         element: <RegistrationForm />,
+      },
+      {
+        path:'/borrowed',
+        element: <BorrowedBooks />
       }
     ]
   },

@@ -35,11 +35,26 @@ router.post(
         "select * from user where email = ?",
         [req.body.email]
       );
-      if (checkEmailExists.length > 0) {
+      const secondCheckEmailExists = await query(
+        "select * from pending_user where email = ?",
+        [req.body.email]
+      );
+
+      if (secondCheckEmailExists.length > 0) {
         res.status(400).json({
           errors: [
             {
-              msg: "email alr exists",
+              msg: "email already is pedning approval",
+            },
+          ],
+        });
+      }
+
+      else if (checkEmailExists.length > 0) {
+        res.status(400).json({
+          errors: [
+            {
+              msg: "email already is a user",
             },
           ],
         });

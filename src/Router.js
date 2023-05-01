@@ -19,8 +19,9 @@ import Borrows from "./dashboard/views/borrowRequests/Borrows";
 import Accounts from "./dashboard/views/usersRequests/Accounts";
 import AccountRequests from "./dashboard/views/usersRequests/AccountRequests";
 import AccountHistory from "./dashboard/views/usersRequests/AccountHistory";
-
-
+import BorrowedBooks from "./pages/BorrowedBooks/BorrowedBooks";
+import Guest from "./middleware/Guest";
+import AdminAuth from './middleware/AdminAuth';
 
 
 export const router = createBrowserRouter([
@@ -43,16 +44,32 @@ export const router = createBrowserRouter([
         element: <ProductInfo />
       },
       {
-        path: "contact",
-        element: <Contact />
+        element :<AdminAuth/>,
+        children:[
+          {
+            path: "contact",
+            element: <Contact />
+          },
+        ]
+      },
+
+      // all guest routes should be nested inside this guest helper
+      {
+        element:<Guest/>,
+        children: [
+          {
+            path: '/Login',
+            element: <LoginForm />,
+          },
+          {
+            path: '/Register',
+            element: <RegistrationForm />,
+          }
+        ]
       },
       {
-        path: '/Login',
-        element: <LoginForm />,
-      },
-      {
-        path: '/Register',
-        element: <RegistrationForm />,
+        path:'/borrowed',
+        element: <BorrowedBooks />
       }
     ]
   },

@@ -13,6 +13,7 @@ const Home = () =>  {
         results:[],
         err:null,
         reload: 0,
+        borrow:0,
     });
     
     const [searchKey, setsearchKey] = useState('');
@@ -44,7 +45,7 @@ const Home = () =>  {
     
     return (
         <div className="container">
-            <div className="nav-panel"> 
+            <div className="nav-panel" > 
                 <SearchPanel onData={handleSearchKey}/>
             </div>
             <ProductList  data={books}className ="content"/>

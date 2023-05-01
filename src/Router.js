@@ -10,7 +10,7 @@ import RegistrationForm from "./pages/Registeration/Components/RegistrationForm"
 import Home from "./pages/product/Home";
 import AllBooks from "./dashboard/views/books/AllBooks";
 import AddBook from "./dashboard/views/books/AddBook";
-import UpdateBook, { UpdateBookLoader } from "./dashboard/views/books/UpdateBook";
+import UpdateBook from "./dashboard/views/books/UpdateBook";
 import Dashboard from "./dashboard/Dashboard";
 import Books from "./dashboard/views/books/Books";
 import BorrowRequests from "./dashboard/views/borrowRequests/BorrowRequests";
@@ -74,7 +74,6 @@ export const router = createBrowserRouter([
           },
           {
             path: "update_book/:id",
-            loader: UpdateBookLoader,
             element: <UpdateBook />
           },
         ]

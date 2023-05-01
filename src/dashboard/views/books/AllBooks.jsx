@@ -6,6 +6,8 @@ import axios from 'axios';
 
 
 const AllBooks = () => {
+
+    const [disabled,setDisabled] = useState(true)
     // object to save
     const [books, setBooks] = useState({
         loading: true,
@@ -17,10 +19,10 @@ const AllBooks = () => {
     useEffect(() => {
         setBooks({ ...books, loading: true });    
         axios
-            .get("http://localhost:4000/books/view-books")
+            .get("http://localhost:4000/admin/view-books")
             .then((res) => {
-                console.log(books.results);
                 setBooks({ ...books, results: res.data, loading: false, err: null })
+                console.log(books.results.length);
             })
             .catch((err) => {
                 setBooks({
@@ -29,7 +31,49 @@ const AllBooks = () => {
                     err: "something went wrong, please try again later !"
                 })
             })
-    }, []);
+    }, [books.reload]);
+
+    const handleDeleteAll = () => {
+        setBooks({ ...books, loading: true });    
+        console.log("deleting");
+        axios
+            .delete("http://localhost:4000/admin/delete-allBooks",{
+                headers: {
+                    token: "520d8e5e880254ea31d7dd1fda14bcb6",
+                }
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                setBooks({
+                    ...books,
+                    loading: false,
+                    err: "something went wrong, please try again later !"
+                })
+                console.log(err);
+            })
+    }
+
+    const handleDelete = (params) => {
+        setBooks({ ...books, loading: true });  
+        axios
+            .delete("http://localhost:4000/admin/delete-book/" + params.id,{
+                headers: {
+                    token: "520d8e5e880254ea31d7dd1fda14bcb6",
+                }
+            })
+            .then((res) => {
+                setBooks({...books,reload: !books.reload,loading: false})
+            })
+            .catch((err) => {
+                setBooks({
+                    ...books,
+                    loading: false,
+                    err: "something went wrong  , please try again later ! error desc :" + err
+                })
+            })
+    };
 
     const columns = [
         {
@@ -73,14 +117,19 @@ const AllBooks = () => {
             center: true
         },
         {
-            name: <button>Delete All</button>,
+            name: <button disabled={disabled} className='btn deleteAllBtn' onClick={() => handleDeleteAll()}>Delete All</button>,
             cell: (param) => deleteBook(param),
         },
     ];
 
-    const handleDelete = (params) => {
-        setBooks(books.results.filter((item) => item.id !== params.id))
-    };
+    const handleChange = ({ selectedRows }) =>{
+        if (selectedRows.length === books.results.length && selectedRows.length !== 0){
+            setDisabled(false)
+        }else{
+            setDisabled(true)
+        }
+
+    }
 
     const updateBook = (param) => {
         return (
@@ -117,6 +166,7 @@ const AllBooks = () => {
                 data={books.results}
                 selectableRows
                 pagination
+                onSelectedRowsChange={handleChange}
             />
         </>
     );

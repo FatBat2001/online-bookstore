@@ -2,6 +2,7 @@
    width: 100%;
 }
 
+
 .title-datatable{
     display: flex;
     justify-content: space-between;
@@ -41,4 +42,9 @@
     border-radius: .5rem;
     background-color: white;
     font-size: 1rem;
+}
+
+.deleteAllBtn{
+    
+    font-size: .8rem;
 }

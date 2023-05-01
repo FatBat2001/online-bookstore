@@ -178,7 +178,9 @@ router.delete(
       }
 
       // 2- REMOVE BOOK IMAGE
-      fs.unlinkSync("./upload/" + book[0].image_url); // delete old image
+      if (fs.existsSync("./upload/" + book[0].image_url)) {
+        fs.unlinkSync("./upload/" + book[0].image_url); // delete old image for each book
+      } // delete old image
       await query("delete from book where id = ?", [book[0].id]);
       res.status(200).json({
         msg: "book delete successfully",
@@ -344,10 +346,6 @@ catch (err) {
 }
 });
 
-
-
-
-
 // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CRUD BOOK ENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
 //view all pending users
 router.get("/view-allusers", admin, async (req, res) => {
@@ -377,7 +375,6 @@ router.get("/view-allusers", admin, async (req, res) => {
     res.status(500).json({ err: err });
   }
 });
-
 //---------------------------------------------------------------------------------------------------------
 //view all pending users
 router.get("/view-pending", admin, async (req, res) => {
@@ -400,7 +397,6 @@ router.get("/view-pending", admin, async (req, res) => {
     res.status(500).json({ err: err });
   }
 });
-
 //---------------------------------------------------------------------------------------------------------
 //accept user
 router.post("/accept-user/:id", async (req, res) => {
@@ -434,10 +430,6 @@ router.post("/accept-user/:id", async (req, res) => {
     res.status(500).json({ err: err });
   }
 });
-
-
-
-
 
 //manage borrowed reqs
 router.put("/manage-reqs/:id/:status",
@@ -480,8 +472,6 @@ try {
   }
 });
 
-
-
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //history
 router.get("/history",async(req,res)=>{
@@ -509,7 +499,7 @@ router.get("/history",async(req,res)=>{
 
       res.status(500).json({ err: err });
     }
-  });
+});
 
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //get pending users

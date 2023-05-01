@@ -1,13 +1,13 @@
 import "../styles/SearchPanel.css";
 import { useState } from "react";
-export const SearchPanel = () => {
+export const SearchPanel = ({onData}) => {
   const [searchKey, setSearchKey] = useState("");
 
   const handleSubmit = (Event) => {
 
     Event.preventDefault();
-    console.log(`Search Keyword is ${searchKey}`);
-    
+    // console.log(`Search Keyword is ${searchKey} from child`);
+    onData(searchKey);
   }  
   return (
     <div className="search-box">

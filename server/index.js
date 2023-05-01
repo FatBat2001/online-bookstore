@@ -16,7 +16,7 @@ const admin = require("./routes/Admin")
 app.listen(4000,"localhost" , () => {
     console.log("SERVER IS RUNNING..");
 });
-app.use("/admin",admin)
+app.use("/admin",admin);
 app.use("/auth",auth);
 app.use("/books",books);
 

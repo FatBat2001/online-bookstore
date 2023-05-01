@@ -23,7 +23,7 @@ const login_endpoint_path = "http://localhost:4000/auth/login";
         password: login.password,
       })
       .then((resp) => {
-        // console.log(resp.data[0]);
+        console.log(resp.data[0]);
         setLogin({ ...login, loading: false, err: [] , userData:resp.data[0]});
         setAuthUser(login.userData);
         navigate("/");
@@ -35,7 +35,7 @@ const login_endpoint_path = "http://localhost:4000/auth/login";
           err: errors.response.data.errors,
         });
       });
-    
+      
   };
 
 

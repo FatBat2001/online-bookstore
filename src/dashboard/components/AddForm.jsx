@@ -23,7 +23,9 @@ const AddForm = ({ inputs, title }) => {
                         />
                     </div>
                     <div className="right">
-                        <form>
+                        <form
+                            method='post'
+                        >
                             <div className="formInput">
                                 <label htmlFor="file">
                                     Image: <DriveFolderUploadOutlinedIcon className="icon" />
@@ -33,16 +35,21 @@ const AddForm = ({ inputs, title }) => {
                                     id="file"
                                     onChange={(e) => setFile(e.target.files[0])}
                                     style={{ display: "none" }}
+                                    required
                                 />
                             </div>
 
                             {inputs.map((input) => (
                                 <div className="formInput" key={input.id}>
                                     <label>{input.label}</label>
-                                    <input type={input.type} placeholder={input.placeholder} />
+                                    <input type={input.type} placeholder={input.placeholder} required />
                                 </div>
                             ))}
-                            <button>Send</button>
+                            <button
+                                type='submit'
+                            >
+                                Send
+                            </button>
                         </form>
                     </div>
                 </div>

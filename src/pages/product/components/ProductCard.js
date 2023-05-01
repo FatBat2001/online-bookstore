@@ -20,8 +20,8 @@ const ProductCard = (props) => {
         {/* <button onClick= {()=>props.watch(props.id)}>Watch Now</button> */}
 
         {
-          !props.isBorrowed && (<button>
-            <Link to={"/product-info/" + props.id}>Read Now</Link>
+          !props.isBorrowed && (<button onClick={() => {props.book_now(props.id)}}>
+            <Link >Read Now</Link>
           </button>)
         }
       </div>

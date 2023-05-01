@@ -2,14 +2,26 @@ import { Data } from "../../../core/data/books";
 import ProductCard from "./ProductCard";
 import '../styles/ProductList.css';
 
-
+import axios from "axios";
+import { getAuthUser } from "../../../helper/Storage";
 // data is shared by one way binding method 
 // data is only transefered from parent to child 
 
 // but there is a work around that :) 
 
-const watchNow = (id) => {
-    console.log('we clicked video id: ', id);
+const book_now = (id) => {
+    
+    alert(`you are borrwing the book with id ${id}`);
+    const borrow_endpoint_path = `http://localhost:4000/books/borrow-request/${id}`;
+    
+    axios
+    .post(borrow_endpoint_path,{userid:getAuthUser().id})
+    .then((resp) => {
+      console.log(resp);
+    })
+    .catch((errors) => {
+      console.log(errors);
+    });
 }
 
 
@@ -30,7 +42,7 @@ const ProductList = (props) => {
                 description={item.subject}
                 imageLink={item.image_url}
                 author = {item.author}
-                watch = {watchNow}
+                book_now = {book_now}
                 isBorrowed = {books.borrow}
             />
             }

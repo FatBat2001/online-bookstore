@@ -495,6 +495,22 @@ router.get("/pending-user",async(req,res)=>{
       res.status(500).json({ err: err } );
     }
   });
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//get pending users
+router.get("/get-allusers",async(req,res)=>{
+  try {
+      const query = util.promisify(conn.query).bind(conn);
+      const user = await query("select * from user");
+      for (let index = 0; index < user.length; index++) {
+        delete user[index].password ;
+      }
+
+      res.status(200).json(user);
+    } catch (err) {
+
+      res.status(500).json({ err: err } );
+    }
+  });
 
 
 module.exports = router;

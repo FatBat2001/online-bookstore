@@ -14,59 +14,61 @@ const UpdateForm = ({ formTitle }) => {
         author: "",
         subject: "",
         rack_number: 0,
-        reload: 0,
         loading: false,
+        reload: 0,
         success: null,
     });
-    
-    
+
+    const [bookImg,setBookImg] = useState({img : book.image_url})
+
     const image = useRef(null);
 
-
-    const updateBook = () => {
+    const updateBookData = (e) => {
         e.preventDefault();
+        const url = "http://localhost:4000/admin/update-book/" + id
 
-        setBook({ ...movie, loading: true });
+        setBook({ ...book, loading: true});
 
         const formData = new FormData();
+        if (image.current.files && image.current.files[0] ) {
+            formData.append("image_url", image.current.files[0])
+            setBookImg({
+                img: image.current.files[0]
+            })
+        }
         formData.append("isbn", book.isbn)
         formData.append("title", book.title)
         formData.append("author", book.author)
         formData.append("subject", book.subject)
         formData.append("rack_number", book.rack_number)
-        if (image.current.files && image.current.files[0]) {
-            formData.append("image_url", image.current.files[0]);
-        }
 
-        console.log(formData);
 
+        console.log("this is form data" + formData.entries);
+        for (var key of formData.entries()) {
+			console.log(key[0] + ', ' + key[1])
+		}
         axios
-            .put("http://localhost:4000/admin/update-book/" + id, formData, {
+            .put(url, formData, {
                 headers: {
                     token: "520d8e5e880254ea31d7dd1fda14bcb6",
                     "Content-Type": "multipart/form-data",
-                },
+                }
             })
             .then((resp) => {
-                setBook({
-                    ...book,
-                    err: null,
-                    loading: false,
-                    reload: !book.reload,
-                    image_url: image.current.files[0],
-                    success: "Movie Created Successfully !",
-                });
-                image.current.value = null;
+                console.log(resp);
+                setBook({...book,reload: !book.reload,loading: false})
             })
             .catch((errors) => {
                 setBook({
                     ...book,
                     loading: false,
                     success: null,
-                    err: "Something went wrong, please try again later !",
+                    err: "Something went wrong, please try again later ! err",
                 });
+                console.log(errors);
             });
-    }
+    };
+    
 
     useEffect(() => {
         setBook({ ...book, loading: true });    
@@ -83,7 +85,6 @@ const UpdateForm = ({ formTitle }) => {
                     rack_number: res.data.rack_number,
                     loading: false,
                     err: null })
-                console.log(book.subject);
             })
             .catch((err) => {
                 setBook({
@@ -103,14 +104,15 @@ const UpdateForm = ({ formTitle }) => {
                 <div className="bottom">
                     <div className="left">
                         <img
-                            src={book.image_url}
+                            src={
+                                bookImg ? book.image_url : bookImg
+                            }
                             alt=""
                         />
                     </div>
                     <div className="right">
-                    <form
-                            method='post'
-                            onSubmit={updateBook}
+                        <form
+                            onSubmit={updateBookData}
                         >
                             <div className="formInput">
                                 <label htmlFor="file">
@@ -120,11 +122,6 @@ const UpdateForm = ({ formTitle }) => {
                                     type="file"
                                     id="file"
                                     style={{ display: "none" }}
-                                    onChange={
-                                        () => {
-                                            book.image_url = image.current.files[0];
-                                        }
-                                    }
                                     required
                                     ref={image}
                                 />
@@ -156,7 +153,6 @@ const UpdateForm = ({ formTitle }) => {
                                     type="text"
                                     placeholder={"Action , Drama"} 
                                     required 
-                                    defaultValue={book.subject}
                                     value={book.subject}
                                     onChange={(e) => setBook({ ...book, subject: e.target.value })}
                                 />
@@ -164,7 +160,7 @@ const UpdateForm = ({ formTitle }) => {
                             <div className="formInput">
                                 <label>ISBN</label>
                                 <input 
-                                    type="number"
+                                    type="text"
                                     placeholder={3463473} 
                                     required 
                                     value={book.isbn}
@@ -174,8 +170,8 @@ const UpdateForm = ({ formTitle }) => {
                             <div className="formInput">
                                 <label>Rack</label>
                                 <input 
-                                    type="number"
-                                    placeholder={34} 
+                                    type="text"
+                                    placeholder={34}
                                     required 
                                     value={book.rack_number}
                                     onChange={(e) => setBook({ ...book, rack_number: e.target.value })}

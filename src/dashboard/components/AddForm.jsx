@@ -4,10 +4,10 @@ import '../styling/AddForm.css'
 import axios from 'axios';
 
 
-const AddForm = ({ inputs, title }) => {
-    const [file, setFile] = useState("");
+const AddForm = ({ title }) => {
     
     const [book, setBook] = useState({
+        image_url: null,
         isbn: 0,
         title: "",
         author: "",
@@ -21,6 +21,7 @@ const AddForm = ({ inputs, title }) => {
     
     const image = useRef(null);
     
+    
     const createBook = (e) => {
         e.preventDefault();
         const url = "http://localhost:4000/admin/create-book"
@@ -28,8 +29,10 @@ const AddForm = ({ inputs, title }) => {
         setBook({ ...book, loading: true});
 
         const formData = new FormData();
-        if (image.current.files[0] ) {
+        if (image.current.files && image.current.files[0] ) {
+            book.image_url = image.current.files[0]
             formData.append("image_url", image.current.files[0])
+            console.log(book.image_url);
         }
         formData.append("isbn", book.isbn)
         formData.append("title", book.title)
@@ -38,11 +41,12 @@ const AddForm = ({ inputs, title }) => {
         formData.append("rack_number", book.rack_number)
 
 
-        console.log(formData);
+        console.log("this is form data" + formData.entries);
+        for (var key of formData.entries()) {
+			console.log(key[0] + ', ' + key[1])
+		}
         axios
-            .post(url, {
-                formData
-            }, {
+            .post(url, formData, {
                 headers: {
                     token: "520d8e5e880254ea31d7dd1fda14bcb6",
                     "Content-Type": "multipart/form-data",
@@ -62,8 +66,9 @@ const AddForm = ({ inputs, title }) => {
                     ...book,
                     loading: false,
                     success: null,
-                    err: "Something went wrong, please try again later !",
+                    err: "Something went wrong, please try again later ! err",
                 });
+                console.log(errors);
             });
     };
 
@@ -76,14 +81,12 @@ const AddForm = ({ inputs, title }) => {
                 </div>
                 <div className="bottom">
                     <div className="left">
-                        {/* <img
+                        <img
                             src={
-                                file
-                                    ? URL.createObjectURL(file)
-                                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                book.image_url ? URL.createObjectURL(book.image_url) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                             }
                             alt=""
-                        /> */}
+                        />
                     </div>
                     <div className="right">
                         <form
@@ -136,7 +139,7 @@ const AddForm = ({ inputs, title }) => {
                             <div className="formInput">
                                 <label>ISBN</label>
                                 <input 
-                                    type="number"
+                                    type="text"
                                     placeholder={3463473} 
                                     required 
                                     value={book.isbn}
@@ -146,8 +149,8 @@ const AddForm = ({ inputs, title }) => {
                             <div className="formInput">
                                 <label>Rack</label>
                                 <input 
-                                    type="number"
-                                    placeholder={34} 
+                                    type="text"
+                                    placeholder={34}
                                     required 
                                     value={book.rack_number}
                                     onChange={(e) => setBook({ ...book, rack_number: e.target.value })}

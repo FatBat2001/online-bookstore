@@ -29,6 +29,7 @@ const LoginForm = () => {
         navigate("/");
       })
       .catch((errors) => {
+        console.log(errors);
         setLogin({
           ...login,
           loading: false,

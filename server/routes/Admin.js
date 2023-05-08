@@ -482,7 +482,6 @@ router.get("/history",async(req,res)=>{
       const requestedbooks = await query("select * from requested_book");
       let arr = []
       let borrowRequestData = {}
-      let books = []
 
       for (let index = 0; index < requestedbooks.length; index++) {
         let users = await query("select * from user where id = ?",[requestedbooks[index].userid]);
@@ -518,21 +517,50 @@ router.get("/pending-user",async(req,res)=>{
     }
   });
 //---------------------------------------------------------------------------------------------------------------------------------------------
-//get pending users
+//get all users / limits
 router.get("/get-allusers",async(req,res)=>{
   try {
-      const query = util.promisify(conn.query).bind(conn);
-      const user = await query("select * from user");
-      for (let index = 0; index < user.length; index++) {
-        delete user[index].password ;
+    let arr = []
+    let user = {}
+    const query = util.promisify(conn.query).bind(conn);
+    const users = await query("select * from user"); 
+    for (let index = 0; index < users.length; index++) {
+
+      user = {
+        userName: users[index].name,
+        email: users[index].email,
+        phone: users[index].phone,
+        id: users[index].id,  
       }
+        arr[index] = user
+    }
+      for (let index = 0; index < arr.length; index++) {
+        const limit = await query("select maxLimit from borrow_limit where user_id = ?",[arr[index].id]);
+        if(limit.length){
+          arr[index]['Limit'] = limit[0].maxLimit;        
+        }
+        else {
+          arr[index]['Limit'] = 5000;        
 
-      res.status(200).json(user);
+        }
+      }
+      res.status(200).json(arr);
     } catch (err) {
-
+      console.log(err);
       res.status(500).json({ err: err } );
     }
   });
-
-
+//add limit to user borrows
+router.post("/borrowLimit/:id",
+async(req,res)=>{
+    try {
+        const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
+        //status -> 1 accept // 0 -> reject
+        let limit = req.body.limit;
+        await query("insert into borrow_limit set maxLimit = ?  , user_id = ?",[limit,req.params.id]);
+        res.status(200).json("updated");
+    } catch (err) {
+        res.status(500).json({ err: err });
+      }
+});
 module.exports = router;

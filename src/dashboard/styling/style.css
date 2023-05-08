@@ -10,7 +10,7 @@
 
 .sidebar-container {
     display: flex;
-    min-height: 100vh;
+    min-height: 590px;
     max-width: 16rem;
 }
 

@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database : 'bookstore',
+  database : 'bookstore_2',
   port : '3306', // default port
 });
 

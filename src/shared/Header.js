@@ -3,9 +3,22 @@ import image from "../assets/images/logo-inverted.jpeg";
 import { Link } from "react-router-dom";
 import { removeAuthUser, getAuthUser } from "../helper/Storage";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Header = () => {
   const navigate = useNavigate();
-  const logout = () => {
+  const logout_endpoint_path = 'http://localhost:4000/auth/logout';
+  
+  const logout = (e) => {
+    e.preventDefault();
+    axios
+    .post("http://localhost:4000/auth/logout", getAuthUser())
+    .then((resp) => {
+      console.log('horray');  
+    })
+    .catch((errors) => {
+      console.log(errors);
+    });
+    
     removeAuthUser();
     navigate("/");
   };

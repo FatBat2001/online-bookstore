@@ -80,6 +80,7 @@ router.post(
       }
     } catch (err) {
       res.status(500).json({ err: err });
+      return;
     }
   }
 );
@@ -121,6 +122,7 @@ router.post(
       const checkpassword = req.body.password === user[0].password;
       if (checkpassword) {
         delete user[0].password;
+        await query("UPDATE user SET status = 1 WHERE id  = ?", user[0].id);
         res.status(200).json(user);
       } else {
         res.status(404).json({
@@ -133,8 +135,44 @@ router.post(
       }
     } catch (err) {
       res.status(500).json({ err: err });
+      return;
     }
   }
 );
 
+
+//LOGOUT
+router.post(
+  "/logout",
+  
+  async (req, res) => {
+    try {
+      // 1- VALIDATION REQUEST [manual, express validation]
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      //2- check if email exists
+      //await  / async
+      const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
+      const user = await query("update user set status = 0 where  id = ?", [
+        req.body.id,
+      ]);
+      if (user.length == 0) {
+        res.status(404).json({
+          errors: [
+            {
+              msg: "email or password not found",
+            },
+          ],
+        });
+      }
+
+    } catch (err) {
+      res.status(500).json({ err: err });
+      return;
+    }
+  }
+);
 module.exports = router;

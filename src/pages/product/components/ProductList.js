@@ -23,7 +23,7 @@ const book_now = (id) => {
         // console.log(errors);
       });
   } else {
-    alert('please login or register to borrow a book')
+    alert('please login to borrow a book')
   }
 };
 

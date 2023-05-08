@@ -423,9 +423,10 @@ router.post("/accept-user/:id", async (req, res) => {
     if (req.body.status === "1") {
       await query("insert into user set ?", [userData]);
     }
+    const ID = await query("select id from user where email = ?",[user[0].email])
     await query("delete from pending_user where id = ?", [req.params.id]);
     delete userData.password;
-
+    userData['ID'] = ID[0].id;
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({ err: err });
@@ -530,7 +531,8 @@ router.get("/get-allusers",async(req,res)=>{
         userName: users[index].name,
         email: users[index].email,
         phone: users[index].phone,
-        id: users[index].id,  
+        id: users[index].id,
+        type: users[index].type
       }
         arr[index] = user
     }
@@ -544,6 +546,7 @@ router.get("/get-allusers",async(req,res)=>{
 
         }
       }
+      
       res.status(200).json(arr);
     } catch (err) {
       console.log(err);

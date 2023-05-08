@@ -2,16 +2,39 @@ import React from "react";
 import DataTable from 'react-data-table-component';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ModalComp from "../../../shared/ModalComp.jsx";
+import ModalComp from "../../../shared/ModalComp";
 
 const AccountRequests = () => {
 
     const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
+    const [accLimitId,setAccLimitId] = useState(null)
     const handleClose = () => setShow(false);
+    const [limit,setLimit] = useState(3)
+    
+
+    //handle limit of borrowing books
+    const handleLimit = () => {
+        setShow(false)
+        const url = "http://localhost:4000/admin/borrowLimit/" + accLimitId
+        console.log(accLimitId);
+        console.log(limit);
+        const limitNum = parseInt(limit)
+        console.log(limitNum);
+        axios
+            .post(url,{
+                limit: limitNum
+            })
+            .then((resp) => {
+                console.log(resp);
+            })
+            .catch((errors) => {
+                console.log(errors);
+            });
+    }
 
     //Used to render users whose account requests are still pending
     const handleStatus = (accId, stat) => {
+        setShow(true);
         const url = "http://localhost:4000/admin/accept-user/" + accId
         console.log(accId);
         axios
@@ -23,8 +46,8 @@ const AccountRequests = () => {
                 }
             })
             .then((resp) => {
-                window.location.reload();
                 console.log(resp);
+                setAccLimitId(resp.data.ID)
             })
             .catch((errors) => {
                 console.log(errors);
@@ -85,12 +108,6 @@ const AccountRequests = () => {
             sortable: false,
             center: true
         },
-        {
-            name: '',
-            cell: (data) => <button onClick={handleShow}>show limit</button>,
-            sortable: false,
-            center: true
-        },
     ];
 
     return (
@@ -104,10 +121,20 @@ const AccountRequests = () => {
                 pagination
             />
             <ModalComp
-                modalTitle={"this is a title"}
-                modalBody={"this is a body"}
+                modalTitle={<h3>Edit Borrow Limit</h3>}
+                modalBody={<>
+                    <label htmlFor="limit">Enter Limit : </label>
+                    <input 
+                        type="number" 
+                        placeholder={3} 
+                        value={limit} 
+                        onChange={(e) => setLimit(e.target.value)} 
+                        required
+                    />
+                </>}
                 show={show}
                 handleClose={handleClose}
+                handleLimit={() => {handleLimit()}}
             />
         </>
     );

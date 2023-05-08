@@ -8,12 +8,12 @@ const { body, validationResult } = require("express-validator");
 const util = require("util");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const { log } = require("console");
- 
+const maxBorrowLimit = require("../middleware/borrowLimit");
+
 const portNumber = ":4000";
 
 //borrow request
-router.post("/borrow-request/:id", async (req, res) => {
+router.post("/borrow-request/:id",maxBorrowLimit, async (req, res) => {
   try {
     const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
     //REQUEST DATA

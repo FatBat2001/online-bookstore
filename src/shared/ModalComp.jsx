@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import "../styles/Modal.css"
 
 
-function ModalComp({ modalTitle, modalBody, show, handleClose }) {
+function ModalComp({ modalTitle, modalBody, show, handleClose,handleLimit }) {
 
     return (
 
@@ -17,7 +17,7 @@ function ModalComp({ modalTitle, modalBody, show, handleClose }) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleLimit}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

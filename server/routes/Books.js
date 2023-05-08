@@ -9,7 +9,7 @@ const util = require("util");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { log } = require("console");
-
+ 
 const portNumber = ":4000";
 
 //borrow request
@@ -86,7 +86,7 @@ router.get("/get-borrow-history/:id", async (req, res) => {
     const query = util.promisify(conn.query).bind(conn);
     //get requested books id & the userid
     const borrowhistory = await query(
-      "select bookid from requested_book where userid = ?",
+      "select bookid from requested_book where userid = ? AND status regexp 'accepted'",
       [req.params.id]
     );
     //get the book details from bookid

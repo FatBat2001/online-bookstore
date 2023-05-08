@@ -1,13 +1,10 @@
 import React from "react";
 import DataTable from 'react-data-table-component';
+import { data, userData } from '../../helper/helper';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ModalComp from "../../../shared/ModalComp.jsx";
 
 const AccountRequests = () => {
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
 
     //Used to render users whose account requests are still pending
     const handleStatus = (accId, stat) => {
@@ -84,12 +81,6 @@ const AccountRequests = () => {
             sortable: false,
             center: true
         },
-        {
-            name: '',
-            cell: (data) => <button onClick={handleShow}>show limit</button>,
-            sortable: false,
-            center: true
-        },
     ];
 
     return (
@@ -101,12 +92,6 @@ const AccountRequests = () => {
                 columns={columns}
                 data={currpendinguser.results}
                 pagination
-            />
-            <ModalComp
-                modalTitle={"this is a title"}
-                modalBody={"this is a body"}
-                show={show}
-                handleClose={handleClose}
             />
         </>
     );

@@ -67,14 +67,14 @@ router.post(
       }
 
       // 3- PREPARE BOOK OBJECT
-        const book = {
-          ISBN: req.body.isbn,
-          author: req.body.author,
-          title:req.body.title,
-          subject:req.body.subject,
-          rack_number:req.body.rack_number,
-          image_url: req.file.filename,
-        };
+      const book = {
+        ISBN: req.body.isbn,
+        author: req.body.author,
+        title: req.body.title,
+        subject: req.body.subject,
+        rack_number: req.body.rack_number,
+        image_url: req.file.filename,
+      };
 
       // 4 - INSERT BOOK INTO DB
       const query = util.promisify(conn.query).bind(conn);
@@ -137,12 +137,12 @@ router.put(
 
       // 3- PREPARE BOOK OBJECT
       const bookObj = {
-          ISBN: req.body.isbn,
-          author: req.body.author,
-          title: req.body.title,
-          subject: req.body.subject,
-          rack_number: req.body.rack_number,
-        };
+        ISBN: req.body.isbn,
+        author: req.body.author,
+        title: req.body.title,
+        subject: req.body.subject,
+        rack_number: req.body.rack_number,
+      };
 
       if (req.file) {
         bookObj.image_url = req.file.filename;
@@ -189,7 +189,7 @@ router.delete(
       res.status(500).json(err);
     }
   }
-);  
+);
 
 //delete books
 router.delete(
@@ -219,25 +219,25 @@ router.delete(
       return res.status(500).json(err);
     }
   }
-); 
+);
 
 // view all books  & Search Books 
 // view books if passed a query parameter becomes our search function by all attributes 
 // It's a one function that handles all from the fronted 
-router.get("/view-books", async(req, res)=> {
+router.get("/view-books", async (req, res) => {
   const query = util.promisify(conn.query).bind(conn);
   let search = "";
   if (req.query.search) {
     // query parameters 
-      const key =  req.query.search;
-      
-      if (isIntegerString(key)) {
-        search = `where ISBN = ${parseInt(key)} or  rack_number = ${parseInt(key)}`;
-      } else {
-        search = `where author regexp "${key}" or title regexp "${key}" or subject regexp "${key}"`;
-      }
+    const key = req.query.search;
+
+    if (isIntegerString(key)) {
+      search = `where ISBN = ${parseInt(key)} or  rack_number = ${parseInt(key)}`;
+    } else {
+      search = `where author regexp "${key}" or title regexp "${key}" or subject regexp "${key}"`;
     }
-  
+  }
+
   const books = await query(`select * from book ${search}`);
   books.map((book) => {
     book.image_url = "http://" + req.hostname + portNumber + '/' + book.image_url;
@@ -260,91 +260,91 @@ router.get("/search-books/:id", async (req, res) => {
 
   if (!book[0]) {
     res.status(404).json({ ms: "book not found !" });
-    
+
   } else {
     book[0].image_url = "http://" + req.hostname + ":4000/" + book[0].image_url;
     res.status(200).json(book[0]);
   }
-  
+
 });
 
 //get borrowed requests with book details and user name
-router.get("/get-request",admin,async(req,res)=>{
-  try{
-  const query = util.promisify(conn.query).bind(conn);
-  //get requested books id & the userid
-  const requestedbooks = await query("select * from requested_book where status = ?",["pending"]);
-  //get the book details from bookid 
+router.get("/get-request", admin, async (req, res) => {
+  try {
+    const query = util.promisify(conn.query).bind(conn);
+    //get requested books id & the userid
+    const requestedbooks = await query("select * from requested_book where status = ?", ["pending"]);
+    //get the book details from bookid 
 
-  let arr = []
-  let borrowRequestData = {}
-  let books = []
+    let arr = []
+    let borrowRequestData = {}
+    let books = []
 
-  for (let index = 0; index < requestedbooks.length; index++) {
-    let users = await query("select name from user where id = ?",[requestedbooks[index].userid]);
-    books = await query("select * from book where id = ?",[requestedbooks[index].bookid]);
-    console.log(books[0].isbn);
-    borrowRequestData = {
-      id : requestedbooks[index].id,
-      userName: users[0].name,
-      bookId: books[0].id,
-      ISBN: books[0].ISBN,
-      title: books[0].title,
-      author: books[0].author,
-      subject: books[0].subject,
-      image_url: "http://" + req.hostname + ":4000/" + books[0].image_url,
-      rack_number: books[0].rack_number,
-      ret_date: books[0].ret_date
+    for (let index = 0; index < requestedbooks.length; index++) {
+      let users = await query("select name from user where id = ?", [requestedbooks[index].userid]);
+      books = await query("select * from book where id = ?", [requestedbooks[index].bookid]);
+      console.log(books[0].isbn);
+      borrowRequestData = {
+        id: requestedbooks[index].id,
+        userName: users[0].name,
+        bookId: books[0].id,
+        ISBN: books[0].ISBN,
+        title: books[0].title,
+        author: books[0].author,
+        subject: books[0].subject,
+        image_url: "http://" + req.hostname + ":4000/" + books[0].image_url,
+        rack_number: books[0].rack_number,
+        ret_date: books[0].ret_date
+      }
+      arr[index] = borrowRequestData
     }
-    arr[index] = borrowRequestData
+    //get the user name from userid
+    res.status(200).json(arr);
+    //format an object to view to the front end
   }
-  //get the user name from userid
-  res.status(200).json(arr);
-  //format an object to view to the front end
-}
-catch (err) {
-  console.log(err);
-  res.status(500).json({ err: err });
-}
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err });
+  }
 });
 //------------------------------------------------------------------------------------------------------------------
 //get borrow history 
-router.get("/get-borrow-history",async(req,res)=>{
-  try{
-  const query = util.promisify(conn.query).bind(conn);
-  //get requested books id & the userid
-  const borrowhistory = await query("select * from requested_book");
-  //get the book details from bookid 
+router.get("/get-borrow-history", async (req, res) => {
+  try {
+    const query = util.promisify(conn.query).bind(conn);
+    //get requested books id & the userid
+    const borrowhistory = await query("select * from requested_book");
+    //get the book details from bookid 
 
-  let arr = []
-  let borrowRequestData = {}
-  let books = []
+    let arr = []
+    let borrowRequestData = {}
+    let books = []
 
-  for (let index = 0; index < borrowhistory.length; index++) {
-    let users = await query("select name from user where id = ?",[borrowhistory[index].userid]);
-    books = await query("select * from book where id = ?",[borrowhistory[index].bookid]);
-    console.log(books[0].isbn);
-    borrowRequestData = {
-      userName: users[0].name,
-      bookId: books[0].id,
-      ISBN: books[0].ISBN,
-      title: books[0].title,
-      author: books[0].author,
-      image_url: "http://" + req.hostname + ":4000/" + books[0].image_url,
-      rack_number: books[0].rack_number,
-      status: borrowhistory[index].status
+    for (let index = 0; index < borrowhistory.length; index++) {
+      let users = await query("select name from user where id = ?", [borrowhistory[index].userid]);
+      books = await query("select * from book where id = ?", [borrowhistory[index].bookid]);
+      console.log(books[0].isbn);
+      borrowRequestData = {
+        userName: users[0].name,
+        bookId: books[0].id,
+        ISBN: books[0].ISBN,
+        title: books[0].title,
+        author: books[0].author,
+        image_url: "http://" + req.hostname + ":4000/" + books[0].image_url,
+        rack_number: books[0].rack_number,
+        status: borrowhistory[index].status
+      }
+      arr[index] = borrowRequestData
     }
-    arr[index] = borrowRequestData
+    //get the user name from userid
+    res.status(200).json(arr);
+    //format an object to view to the front end
+
   }
-  //get the user name from userid
-  res.status(200).json(arr);
-  //format an object to view to the front end
-  
-}
-catch (err) {
-  console.log(err);
-  res.status(500).json({ err: err });
-}
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err });
+  }
 });
 
 // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CRUD BOOK ENDING <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
@@ -369,6 +369,26 @@ router.get("/view-allusers", admin, async (req, res) => {
         if (item.type === "librarian") librarian_id = index;
       });
       users.splice(librarian_id, 1);
+
+      let arr = []
+      let borrowRequestData = {}
+      let books = []
+
+      for (let index = 0; index < borrowhistory.length; index++) {
+        let users = await query("select name from user where id = ?", [borrowhistory[index].userid]);
+        books = await query("select * from book where id = ?", [borrowhistory[index].bookid]);
+        console.log(books[0].isbn);
+        borrowRequestData = {
+          userName: users[0].id,
+          bookId: users[0].id,
+          ISBN: books[0].ISBN,
+          title: books[0].title,
+          author: books[0].author,
+          rack_number: books[0].rack_number,
+          status: borrowhistory[index].status
+        }
+        arr[index] = borrowRequestData
+      }
 
       res.status(200).json(users);
     }
@@ -434,28 +454,28 @@ router.post("/accept-user/:id", async (req, res) => {
 
 //manage borrowed reqs
 router.put("/manage-reqs/:id",
-async(req,res)=>{
+  async (req, res) => {
     try {
-        const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
-        //status -> 1 accept // 0 -> reject
-        let appliedstatus = "";
-        if(req.body.status == "1"){
-            appliedstatus = "accepted";
-        }
-
-        else{
-            appliedstatus = "rejected";
-        }
-        await query("update requested_book set status = ?  where id = ?",[appliedstatus,req.params.id]);
-        res.status(200).json("updated");
-    } catch (err) {
-        res.status(500).json({ err: err });
+      const query = util.promisify(conn.query).bind(conn); // transform query mysql --> promise to use [await/async]
+      //status -> 1 accept // 0 -> reject
+      let appliedstatus = "";
+      if (req.body.status == "1") {
+        appliedstatus = "accepted";
       }
-});
+
+      else {
+        appliedstatus = "rejected";
+      }
+      await query("update requested_book set status = ?  where id = ?", [appliedstatus, req.params.id]);
+      res.status(200).json("updated");
+    } catch (err) {
+      res.status(500).json({ err: err });
+    }
+  });
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //borrowed books
-router.get("/show-borrowed",async(req,res)=>{
-try {
+router.get("/show-borrowed", async (req, res) => {
+  try {
     const query = util.promisify(conn.query).bind(conn);
     const book = await query("select * from requested_book");
     if (!book[0]) {
@@ -476,63 +496,63 @@ try {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //history
-router.get("/history",async(req,res)=>{
+router.get("/history", async (req, res) => {
   try {
-      const query = util.promisify(conn.query).bind(conn);
-      const requestedbooks = await query("select * from requested_book");
-      let arr = []
-      let borrowRequestData = {}
-      let books = []
+    const query = util.promisify(conn.query).bind(conn);
+    const requestedbooks = await query("select * from requested_book");
+    let arr = []
+    let borrowRequestData = {}
+    let books = []
 
-      for (let index = 0; index < requestedbooks.length; index++) {
-        let users = await query("select * from user where id = ?",[requestedbooks[index].userid]);
-        console.log(users[0].id);
-        borrowRequestData = {
-          userName: users[0].name,
-          email: users[0].email,
-          phone: users[0].phone,
-          status: requestedbooks[index].status,
-        }
-        arr[index] = borrowRequestData
+    for (let index = 0; index < requestedbooks.length; index++) {
+      let users = await query("select * from user where id = ?", [requestedbooks[index].userid]);
+      console.log(users[0].id);
+      borrowRequestData = {
+        userName: users[0].name,
+        email: users[0].email,
+        phone: users[0].phone,
+        status: requestedbooks[index].status,
       }
-        res.status(200).json(arr);
-      
-    } catch (err) {
-
-      res.status(500).json({ err: err });
+      arr[index] = borrowRequestData
     }
+    res.status(200).json(arr);
+
+  } catch (err) {
+
+    res.status(500).json({ err: err });
+  }
 });
 
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //get pending users
-router.get("/pending-user",async(req,res)=>{
+router.get("/pending-user", async (req, res) => {
   try {
-      const query = util.promisify(conn.query).bind(conn);
-      const pending_user = await query("select * from pending_user");
-      delete pending_user.password ;
-      res.status(200).json(pending_user);
-      
-    } catch (err) {
+    const query = util.promisify(conn.query).bind(conn);
+    const pending_user = await query("select * from pending_user");
+    delete pending_user.password;
+    res.status(200).json(pending_user);
 
-      res.status(500).json({ err: err } );
-    }
-  });
+  } catch (err) {
+
+    res.status(500).json({ err: err });
+  }
+});
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //get pending users
-router.get("/get-allusers",async(req,res)=>{
+router.get("/get-allusers", async (req, res) => {
   try {
-      const query = util.promisify(conn.query).bind(conn);
-      const user = await query("select * from user");
-      for (let index = 0; index < user.length; index++) {
-        delete user[index].password ;
-      }
-
-      res.status(200).json(user);
-    } catch (err) {
-
-      res.status(500).json({ err: err } );
+    const query = util.promisify(conn.query).bind(conn);
+    const user = await query("select * from user");
+    for (let index = 0; index < user.length; index++) {
+      delete user[index].password;
     }
-  });
+
+    res.status(200).json(user);
+  } catch (err) {
+
+    res.status(500).json({ err: err });
+  }
+});
 
 
 module.exports = router;

@@ -29,7 +29,7 @@ const Header = () => {
           </li>
           {user && user.type === "librarian" && (
             <li>
-              <Link to={"/contact"} className="Link">
+              <Link to={"/dashboard"} className="Link">
                 Dashboard
               </Link>
             </li>

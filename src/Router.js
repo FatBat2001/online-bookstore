@@ -44,18 +44,66 @@ export const router = createBrowserRouter([
         element: <ProductInfo />
       },
       {
-        element :<AdminAuth/>,
-        children:[
+        element: <AdminAuth />,
+        children: [
           {
-            path: "contact",
-            element: <Contact />
+            path: "dashboard",
+            element: <Dashboard />,
+            children: [
+              {
+                path: "books",
+                element: <Books />,
+                children: [
+                  {
+                    index: true,
+                    element: <AllBooks />,
+                  },
+                  {
+                    path: "add_book",
+                    element: <AddBook />
+                  },
+                  {
+                    path: "update_book/:id",
+                    element: <UpdateBook />
+                  },
+                ]
+              },
+              {
+                path: "borrowReq",
+                element: <Borrows />,
+                children: [
+                  {
+                    index: true,
+                    element: <BorrowRequests />,
+                  },
+                  {
+                    path: "history",
+                    element: <BorrowHistory />,
+                  }
+                ]
+              },
+              {
+                path: "accountReq",
+                element: <Accounts />,
+                children: [
+                  {
+                    index: true,
+                    element: <AccountRequests />,
+                  },
+                  {
+                    path: "history",
+                    element: <AccountHistory />,
+                  }
+                ]
+              }
+            ]
           },
         ]
       },
 
       // all guest routes should be nested inside this guest helper
       {
-        element:<Guest/>,
+        element: <Guest />,
         children: [
           {
             path: '/Login',
@@ -68,60 +116,8 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path:'/borrowed',
+        path: '/borrowed',
         element: <BorrowedBooks />
-      }
-    ]
-  },
-  {
-    path: "dashboard",
-    element: <Dashboard />,
-    children: [
-      {
-        path: "books",
-        element: <Books />,
-        children: [
-          {
-            index: true,
-            element: <AllBooks />,
-          },
-          {
-            path: "add_book",
-            element: <AddBook />
-          },
-          {
-            path: "update_book/:id",
-            element: <UpdateBook />
-          },
-        ]
-      },
-      {
-        path: "borrowReq",
-        element: <Borrows />,
-        children: [
-          {
-            index: true,
-            element: <BorrowRequests />,
-          },
-          {
-            path: "history",
-            element: <BorrowHistory />,
-          }
-        ]
-      },
-      {
-        path: "accountReq",
-        element: <Accounts />,
-        children: [
-          {
-            index: true,
-            element: <AccountRequests />,
-          },
-          {
-            path: "history",
-            element: <AccountHistory />,
-          }
-        ]
       }
     ]
   },
@@ -131,7 +127,7 @@ export const router = createBrowserRouter([
     path: "*",
     element: <NotFound />
   },
-  
+
 
 ]);
 

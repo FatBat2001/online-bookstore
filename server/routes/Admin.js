@@ -498,11 +498,11 @@ router.get("/show-borrowed", async (req, res) => {
 //history
 router.get("/history", async (req, res) => {
   try {
-    const query = util.promisify(conn.query).bind(conn);
-    const requestedbooks = await query("select * from requested_book");
-    let arr = []
-    let borrowRequestData = {}
-    let books = []
+      const query = util.promisify(conn.query).bind(conn);
+      const requestedbooks = await query("select * from requested_book");
+      let arr = []
+      let borrowRequestData = {}
+      let books = []
 
     for (let index = 0; index < requestedbooks.length; index++) {
       let users = await query("select * from user where id = ?", [requestedbooks[index].userid]);
@@ -539,20 +539,20 @@ router.get("/pending-user", async (req, res) => {
 });
 //---------------------------------------------------------------------------------------------------------------------------------------------
 //get pending users
-router.get("/get-allusers", async (req, res) => {
+router.get("/get-allusers",async(req,res)=>{
   try {
-    const query = util.promisify(conn.query).bind(conn);
-    const user = await query("select * from user");
-    for (let index = 0; index < user.length; index++) {
-      delete user[index].password;
+      const query = util.promisify(conn.query).bind(conn);
+      const user = await query("select * from user");
+      for (let index = 0; index < user.length; index++) {
+        delete user[index].password ;
+      }
+
+      res.status(200).json(user);
+    } catch (err) {
+
+      res.status(500).json({ err: err } );
     }
-
-    res.status(200).json(user);
-  } catch (err) {
-
-    res.status(500).json({ err: err });
-  }
-});
+  });
 
 
 module.exports = router;
